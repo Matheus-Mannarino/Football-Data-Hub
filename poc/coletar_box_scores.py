@@ -36,7 +36,7 @@ ARQUIVO_CONTROLE = (
 
 # Primeiro teste com 5 partidas.
 # Após validar o cache, altere para 80.
-MAX_REQUISICOES_POR_EXECUCAO = 75
+MAX_REQUISICOES_POR_EXECUCAO = 80
 
 
 def carregar_json(caminho, valor_padrao):
