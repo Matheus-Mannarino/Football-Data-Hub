@@ -288,7 +288,8 @@ def box_score_ja_processado(
     controle
 ):
     """
-    Verifica se a partida já foi processada.
+    Verifica se a partida já possui box score salvo.
+    Partidas anteriormente sem dados podem ser consultadas novamente.
     """
 
     match_id = partida.get("id")
@@ -298,18 +299,13 @@ def box_score_ja_processado(
     if caminho_box_score(match_id).exists():
         return True
 
-    # Também ignora partidas já registradas
-    # como sem dados
+    # Ignora somente partidas efetivamente coletadas
     if match_id_texto in controle:
         status = controle[
             match_id_texto
         ].get("status")
 
-        if status in {
-            "coletado",
-            "sem_dados",
-            "nao_encontrado"
-        }:
+        if status == "coletado":
             return True
 
     return False

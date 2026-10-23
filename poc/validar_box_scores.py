@@ -433,3 +433,53 @@ if exemplos_nota_nula_com_minutos:
 
     for exemplo in exemplos_nota_nula_com_minutos[:10]:
         print(f"- {exemplo}")
+
+notas_encontradas = []
+notas_acima_de_10 = []
+notas_negativas = []
+
+for arquivo in arquivos_json:
+    with open(arquivo, "r", encoding="utf-8") as f:
+        dados = json.load(f)
+
+    for equipe in dados:
+        for jogador in equipe["players"]:
+            nota_texto = jogador.get("matchRating")
+
+            if nota_texto is None:
+                continue
+
+            nota = float(nota_texto)
+            notas_encontradas.append(nota)
+
+            if nota > 10:
+                notas_acima_de_10.append(
+                    {
+                        "arquivo": arquivo.name,
+                        "jogador": jogador.get("fullName")
+                        or jogador.get("name"),
+                        "nota": nota,
+                    }
+                )
+
+            if nota < 0:
+                notas_negativas.append(
+                    {
+                        "arquivo": arquivo.name,
+                        "jogador": jogador.get("fullName")
+                        or jogador.get("name"),
+                        "nota": nota,
+                    }
+                )
+
+print("\n--- VALIDAÇÃO DAS NOTAS ---")
+print(f"Menor nota: {min(notas_encontradas)}")
+print(f"Maior nota: {max(notas_encontradas)}")
+print(f"Notas acima de 10: {len(notas_acima_de_10)}")
+print(f"Notas negativas: {len(notas_negativas)}")
+
+for registro in notas_acima_de_10[:10]:
+    print(
+        f"- {registro['arquivo']} | "
+        f"{registro['jogador']}: {registro['nota']}"
+    )
