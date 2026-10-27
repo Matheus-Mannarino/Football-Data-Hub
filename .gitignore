@@ -1,2 +1,4 @@
 .env
 poc/dados/
+__pycache__/
+*.py[cod]

@@ -2049,12 +2049,12 @@
             "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
         },
         "state": {
-            "clock": null,
+            "clock": 90,
             "score": {
-                "current": null,
+                "current": "3 - 2",
                 "penalties": null
             },
-            "description": "Not started"
+            "description": "Finished"
         },
         "awayTeam": {
             "id": 904546,
@@ -2083,12 +2083,12 @@
             "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
         },
         "state": {
-            "clock": null,
+            "clock": 90,
             "score": {
-                "current": null,
+                "current": "0 - 1",
                 "penalties": null
             },
-            "description": "Not started"
+            "description": "Finished"
         },
         "awayTeam": {
             "id": 111414,
@@ -2117,12 +2117,12 @@
             "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
         },
         "state": {
-            "clock": null,
+            "clock": 90,
             "score": {
-                "current": null,
+                "current": "1 - 1",
                 "penalties": null
             },
-            "description": "Not started"
+            "description": "Finished"
         },
         "awayTeam": {
             "id": 101202,
@@ -2151,12 +2151,12 @@
             "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
         },
         "state": {
-            "clock": null,
+            "clock": 90,
             "score": {
-                "current": null,
+                "current": "2 - 1",
                 "penalties": null
             },
-            "description": "Not started"
+            "description": "Finished"
         },
         "awayTeam": {
             "id": 106308,
@@ -2185,12 +2185,12 @@
             "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
         },
         "state": {
-            "clock": null,
+            "clock": 90,
             "score": {
-                "current": null,
+                "current": "3 - 2",
                 "penalties": null
             },
-            "description": "Not started"
+            "description": "Finished"
         },
         "awayTeam": {
             "id": 112265,
@@ -2219,12 +2219,12 @@
             "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
         },
         "state": {
-            "clock": null,
+            "clock": 90,
             "score": {
-                "current": null,
+                "current": "2 - 0",
                 "penalties": null
             },
-            "description": "Not started"
+            "description": "Finished"
         },
         "awayTeam": {
             "id": 676478,
@@ -2253,12 +2253,12 @@
             "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
         },
         "state": {
-            "clock": null,
+            "clock": 90,
             "score": {
-                "current": null,
+                "current": "1 - 1",
                 "penalties": null
             },
-            "description": "Not started"
+            "description": "Finished"
         },
         "awayTeam": {
             "id": 114818,
@@ -2287,12 +2287,12 @@
             "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
         },
         "state": {
-            "clock": null,
+            "clock": 90,
             "score": {
-                "current": null,
+                "current": "1 - 1",
                 "penalties": null
             },
-            "description": "Not started"
+            "description": "Finished"
         },
         "awayTeam": {
             "id": 108010,
@@ -2321,12 +2321,12 @@
             "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
         },
         "state": {
-            "clock": null,
+            "clock": 90,
             "score": {
-                "current": null,
+                "current": "3 - 0",
                 "penalties": null
             },
-            "description": "Not started"
+            "description": "Finished"
         },
         "awayTeam": {
             "id": 102904,
@@ -2355,12 +2355,12 @@
             "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
         },
         "state": {
-            "clock": null,
+            "clock": 90,
             "score": {
-                "current": null,
+                "current": "1 - 0",
                 "penalties": null
             },
-            "description": "Not started"
+            "description": "Finished"
         },
         "awayTeam": {
             "id": 1020282,
