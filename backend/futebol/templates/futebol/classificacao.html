@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classificação | Football Data Hub</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'core:home' %}">Home</a>
+        |
+        <a href="{% url 'futebol:classificacao' %}">Classificação</a>
+        |
+        <a href="{% url 'futebol:partidas' %}">Partidas</a>
+    </nav>
+
+    <h1>Classificação</h1>
+
+    {% if temporada %}
+        <h2>Brasileirão {{ temporada.competicao.nome }} — {{ temporada.ano }}</h2>
+
+        {% if atualizado_em %}
+            <p>
+                Dados atualizados em
+                {{ atualizado_em|date:"d/m/Y H:i" }}.
+                Fonte: Highlightly.
+            </p>
+        {% endif %}
+
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Posição</th>
+                    <th scope="col">Clube</th>
+                    <th scope="col">Pontos</th>
+                    <th scope="col">J</th>
+                    <th scope="col">V</th>
+                    <th scope="col">E</th>
+                    <th scope="col">D</th>
+                    <th scope="col">GP</th>
+                    <th scope="col">GC</th>
+                    <th scope="col">SG</th>
+                    <th scope="col">Aproveitamento</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for linha in classificacao %}
+                    <tr>
+                        <td>{{ linha.posicao }}</td>
+                        <td>{{ linha.clube.nome }}</td>
+                        <td><strong>{{ linha.pontos }}</strong></td>
+                        <td>{{ linha.jogos }}</td>
+                        <td>{{ linha.vitorias }}</td>
+                        <td>{{ linha.empates }}</td>
+                        <td>{{ linha.derrotas }}</td>
+                        <td>{{ linha.gols_pro }}</td>
+                        <td>{{ linha.gols_contra }}</td>
+                        <td>{{ linha.saldo_gols }}</td>
+                        <td>{{ linha.aproveitamento|floatformat:1 }}%</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="11">
+                            A classificação ainda não foi carregada.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p>
+            J: jogos; V: vitórias; E: empates; D: derrotas;
+            GP: gols pró; GC: gols contra; SG: saldo de gols.
+        </p>
+    {% else %}
+        <p>Temporada do Brasileirão 2026 não encontrada.</p>
+    {% endif %}
+</body>
+</html>

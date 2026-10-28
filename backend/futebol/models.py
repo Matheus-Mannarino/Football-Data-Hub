@@ -112,3 +112,44 @@ class Temporadas(models.Model):
         managed = False
         db_table = 'temporadas'
         unique_together = (('competicao', 'ano'),)
+
+class Classificacao(models.Model):
+    id = models.BigAutoField(primary_key=True)
+
+    temporada = models.ForeignKey(
+        Temporadas,
+        models.DO_NOTHING,
+    )
+    clube = models.ForeignKey(
+        Clubes,
+        models.DO_NOTHING,
+    )
+
+    posicao = models.SmallIntegerField()
+    pontos = models.SmallIntegerField()
+    jogos = models.SmallIntegerField()
+    vitorias = models.SmallIntegerField()
+    empates = models.SmallIntegerField()
+    derrotas = models.SmallIntegerField()
+    gols_pro = models.SmallIntegerField()
+    gols_contra = models.SmallIntegerField()
+    atualizado_em = models.DateTimeField()
+
+    @property
+    def saldo_gols(self):
+        return self.gols_pro - self.gols_contra
+
+    @property
+    def aproveitamento(self):
+        if self.jogos == 0:
+            return 0
+        return self.pontos / (self.jogos * 3) * 100
+
+    def __str__(self):
+        return f"{self.posicao} - {self.clube.nome}"
+
+    class Meta:
+        managed = False
+        db_table = "classificacao"
+        unique_together = (("temporada", "clube"),)
+        ordering = ["posicao", "clube_id"]

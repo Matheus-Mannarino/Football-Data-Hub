@@ -1,0 +1,21 @@
+Coleta de nova rodada:
+cd poc
+python -c "from teste_matches import buscar_partidas; buscar_partidas()"
+coletar_box_scores.py
+validar_box_scores.py
+importar dados.py
+
+Conferir no postgre:
+SELECT
+    status_partida,
+    COUNT(*) AS quantidade
+FROM partidas
+GROUP BY status_partida
+ORDER BY quantidade DESC;
+
+SELECT COUNT(*) AS total_atuacoes
+FROM jogador_partida;
+
+Atualizar classificação:
+cd backend
+python manage.py atualizar_classificacao

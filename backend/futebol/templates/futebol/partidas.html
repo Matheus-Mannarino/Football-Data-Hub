@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partidas | Football Data Hub</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'core:home' %}">Home</a>
+        |
+        <a href="{% url 'futebol:classificacao' %}">Classificação</a>
+        |
+        <a href="{% url 'futebol:partidas' %}">Partidas</a>
+    </nav>
+
+    <h1>Partidas</h1>
+
+    {% if temporada %}
+        <h2>Brasileirão {{ temporada.competicao.nome }} — {{ temporada.ano }}</h2>
+
+        <form method="get" action="{% url 'futebol:partidas' %}">
+            <label for="rodada">Rodada:</label>
+
+            <select name="rodada" id="rodada">
+                <option value="">Todas</option>
+
+                {% for rodada in rodadas %}
+                    <option
+                        value="{{ rodada }}"
+                        {% if rodada_selecionada == rodada|stringformat:"s" %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ rodada }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label for="status">Status:</label>
+
+            <select name="status" id="status">
+                <option value="">Todos</option>
+
+                {% for valor, rotulo in opcoes_status %}
+                    <option
+                        value="{{ valor }}"
+                        {% if status_selecionado == valor %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ rotulo }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Filtrar</button>
+
+            <a href="{% url 'futebol:partidas' %}">
+                Limpar filtros
+            </a>
+        </form>
+
+        <p>Partidas encontradas: {{ total_filtrado }}</p>
+
+        <p>
+            Resultados e status refletem a última atualização
+            da base de partidas.
+        </p>
+
+        {% regroup partidas by rodada as grupos_rodadas %}
+
+        {% for grupo in grupos_rodadas %}
+            <section>
+                <h2>Rodada {{ grupo.grouper }}</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Data e hora</th>
+                            <th scope="col">Mandante</th>
+                            <th scope="col">Placar</th>
+                            <th scope="col">Visitante</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for partida in grupo.list %}
+                            <tr>
+                                <td>
+                                    {{ partida.data_hora|date:"d/m/Y H:i" }}
+                                </td>
+
+                                <td>{{ partida.clube_mandante.nome }}</td>
+
+                                <td>
+                                    {% if partida.status_partida == "Finished" %}
+                                        {{ partida.gols_mandante|default_if_none:"–" }}
+                                        x
+                                        {{ partida.gols_visitante|default_if_none:"–" }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+                                </td>
+
+                                <td>{{ partida.clube_visitante.nome }}</td>
+
+                                <td>
+                                    {% if partida.status_partida == "Finished" %}
+                                        Encerrada
+                                    {% elif partida.status_partida == "Not started" %}
+                                        Não iniciada
+                                    {% elif partida.status_partida == "Postponed" %}
+                                        Adiada
+                                    {% else %}
+                                        {{ partida.status_partida }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        {% empty %}
+            <p>Nenhuma partida encontrada para os filtros selecionados.</p>
+        {% endfor %}
+    {% else %}
+        <p>Temporada do Brasileirão 2026 não encontrada.</p>
+    {% endif %}
+</body>
+</html>
