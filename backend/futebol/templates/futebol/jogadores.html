@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogadores | Football Data Hub</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'core:home' %}">Home</a>
+        |
+        <a href="{% url 'futebol:classificacao' %}">Classificação</a>
+        |
+        <a href="{% url 'futebol:partidas' %}">Partidas</a>
+        |
+        <a href="{% url 'futebol:jogadores' %}">Jogadores</a>
+        |
+        <a href="{% url 'futebol:comparacao' %}">Comparação</a>
+        |
+        <a href="{% url 'core:sobre' %}">Sobre</a>
+    </nav>
+
+    <h1>Jogadores</h1>
+
+    <h2>Brasileirão {{ temporada.competicao.nome }} — {{ temporada.ano }}</h2>
+
+    <form method="get" action="{% url 'futebol:jogadores' %}">
+        <label for="busca">Nome:</label>
+
+        <input
+            type="search"
+            id="busca"
+            name="busca"
+            value="{{ busca }}"
+            placeholder="Buscar jogador"
+        >
+
+        <label for="clube">Atuou pelo clube:</label>
+
+        <select id="clube" name="clube">
+            <option value="">Todos</option>
+
+            {% for clube in clubes %}
+                <option
+                    value="{{ clube.id }}"
+                    {% if clube_selecionado == clube.id|stringformat:"s" %}
+                        selected
+                    {% endif %}
+                >
+                    {{ clube.nome }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="posicao">Posição principal:</label>
+
+        <select id="posicao" name="posicao">
+            <option value="">Todas</option>
+
+            {% for posicao in posicoes %}
+                <option
+                    value="{{ posicao }}"
+                    {% if posicao_selecionada == posicao %}
+                        selected
+                    {% endif %}
+                >
+                    {{ posicao }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Filtrar</button>
+
+        <a href="{% url 'futebol:jogadores' %}">
+            Limpar filtros
+        </a>
+    </form>
+
+    <p>Jogadores encontrados: {{ total_jogadores }}</p>
+
+    <p>
+        Atletas com minutos jogados nas partidas encerradas
+        disponíveis na base. Os clubes indicam por quais equipes
+        cada jogador atuou na temporada.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Jogador</th>
+                <th scope="col">Posição principal</th>
+                <th scope="col">Clubes na temporada</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for jogador in pagina %}
+                <tr>
+                    <td>
+                        <a href="{% url 'futebol:detalhe_jogador' jogador.id %}">
+                            {{ jogador.nome }}
+                        </a>
+                    </td>
+
+                    <td>
+                        {{ jogador.posicao_principal|default:"Não informada" }}
+                    </td>
+
+                    <td>
+                        {% for clube in jogador.clubes_temporada %}
+                            <a href="{% url 'futebol:detalhe_clube' clube.id %}">
+                                {{ clube.nome }}
+                            </a>{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            —
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">
+                        Nenhum jogador encontrado para os filtros selecionados.
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if pagina.has_other_pages %}
+        <nav aria-label="Paginação de jogadores">
+            {% if pagina.has_previous %}
+                <a href="?{% if filtros_url %}{{ filtros_url }}&amp;{% endif %}page=1">
+                    Primeira
+                </a>
+
+                <a href="?{% if filtros_url %}{{ filtros_url }}&amp;{% endif %}page={{ pagina.previous_page_number }}">
+                    Anterior
+                </a>
+            {% endif %}
+
+            <span>
+                Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}
+            </span>
+
+            {% if pagina.has_next %}
+                <a href="?{% if filtros_url %}{{ filtros_url }}&amp;{% endif %}page={{ pagina.next_page_number }}">
+                    Próxima
+                </a>
+
+                <a href="?{% if filtros_url %}{{ filtros_url }}&amp;{% endif %}page={{ pagina.paginator.num_pages }}">
+                    Última
+                </a>
+            {% endif %}
+        </nav>
+    {% endif %}
+</body>
+</html>

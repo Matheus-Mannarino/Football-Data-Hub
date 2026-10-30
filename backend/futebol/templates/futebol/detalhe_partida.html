@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {{ partida.clube_mandante.nome }} x
+        {{ partida.clube_visitante.nome }} | Football Data Hub
+    </title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'core:home' %}">Home</a>
+        |
+        <a href="{% url 'futebol:classificacao' %}">Classificação</a>
+        |
+        <a href="{% url 'futebol:partidas' %}">Partidas</a>
+        |
+        <a href="{% url 'futebol:jogadores' %}">Jogadores</a>
+        |
+        <a href="{% url 'futebol:comparacao' %}">Comparação</a>
+        |
+        <a href="{% url 'core:sobre' %}">Sobre</a>
+    </nav>
+
+    <h1>Detalhe da partida</h1>
+
+    <p>
+        Brasileirão {{ partida.temporada.competicao.nome }}
+        — {{ partida.temporada.ano }}
+        — Rodada {{ partida.rodada }}
+    </p>
+
+    <p>{{ partida.data_hora|date:"d/m/Y H:i" }}</p>
+
+    <h2>
+        <a href="{% url 'futebol:detalhe_clube' partida.clube_mandante_id %}">
+            {{ partida.clube_mandante.nome }}
+        </a>
+
+        {% if partida.status_partida == "Finished" %}
+            {{ partida.gols_mandante|default_if_none:"–" }}
+            x
+            {{ partida.gols_visitante|default_if_none:"–" }}
+        {% else %}
+            x
+        {% endif %}
+
+        <a href="{% url 'futebol:detalhe_clube' partida.clube_visitante_id %}">
+            {{ partida.clube_visitante.nome }}
+        </a>
+    </h2>
+
+    <p>
+        Status:
+        {% if partida.status_partida == "Finished" %}
+            Encerrada
+        {% elif partida.status_partida == "Not started" %}
+            Não iniciada
+        {% elif partida.status_partida == "Postponed" %}
+            Adiada
+        {% else %}
+            {{ partida.status_partida }}
+        {% endif %}
+    </p>
+
+    {% if partida.penaltis_mandante != None and partida.penaltis_visitante != None %}
+        <p>
+            Disputa de pênaltis:
+            {{ partida.penaltis_mandante }}
+            x
+            {{ partida.penaltis_visitante }}
+        </p>
+    {% endif %}
+
+    <h2>Jogadores e estatísticas</h2>
+
+    <p>
+        Dados disponíveis na última coleta.
+        Jogadores com 0 minutos podem constar entre os relacionados.
+    </p>
+
+    {% for equipe in equipes %}
+        <section>
+            <h3>{{ equipe.clube.nome }}</h3>
+
+            {% if equipe.atuacoes %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Camisa</th>
+                            <th scope="col">Jogador</th>
+                            <th scope="col">Posição</th>
+                            <th scope="col">Titular</th>
+                            <th scope="col">Minutos</th>
+                            <th scope="col">Nota</th>
+                            <th scope="col">Gols</th>
+                            <th scope="col">Assistências</th>
+                            <th scope="col">Amarelos</th>
+                            <th scope="col">Segundos amarelos</th>
+                            <th scope="col">Vermelhos</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for atuacao in equipe.atuacoes %}
+                            <tr>
+                                <td>{{ atuacao.numero_camisa }}</td>
+
+                                <td>
+                                    {% if atuacao.minutos_jogados > 0 and partida.status_partida == "Finished" %}
+                                        <a href="{% url 'futebol:detalhe_jogador' atuacao.jogador_id %}">
+                                            {{ atuacao.jogador.nome }}
+                                        </a>
+                                    {% else %}
+                                        {{ atuacao.jogador.nome }}
+                                    {% endif %}
+
+                                    {% if atuacao.capitao %}
+                                        (C)
+                                    {% endif %}
+                                </td>
+
+                                <td>{{ atuacao.posicao_partida }}</td>
+
+                                <td>
+                                    {{ atuacao.titular|yesno:"Sim,Não" }}
+                                </td>
+
+                                <td>{{ atuacao.minutos_jogados }}</td>
+
+                                <td>
+                                    {% if atuacao.nota != None %}
+                                        {{ atuacao.nota|floatformat:2 }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+
+                                <td>{{ atuacao.gols }}</td>
+                                <td>{{ atuacao.assistencias }}</td>
+                                <td>{{ atuacao.cartoes_amarelos }}</td>
+                                <td>{{ atuacao.segundos_amarelos }}</td>
+                                <td>{{ atuacao.cartoes_vermelhos }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                {% if partida.status_partida == "Finished" %}
+                    <p>
+                        Estatísticas individuais deste clube
+                        não disponíveis na base para esta partida.
+                    </p>
+                {% elif partida.status_partida == "Postponed" %}
+                    <p>
+                        Partida adiada. Nenhuma escalação ou estatística
+                        individual disponível na base.
+                    </p>
+                {% else %}
+                    <p>
+                        Nenhuma escalação ou estatística individual
+                        disponível na base até o momento.
+                    </p>
+                {% endif %}
+            {% endif %}
+        </section>
+    {% endfor %}
+
+    <p>
+        <a href="{% url 'futebol:partidas' %}">
+            Voltar para partidas
+        </a>
+    </p>
+</body>
+</html>

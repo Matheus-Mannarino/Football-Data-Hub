@@ -1,0 +1,224 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparação | Football Data Hub</title>
+    <link
+        rel="stylesheet"
+        href="{% static 'futebol/css/comparacao.css' %}"
+    >
+    <script
+        src="{% static 'futebol/js/comparacao.js' %}"
+        defer
+    ></script>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'core:home' %}">Home</a>
+        |
+        <a href="{% url 'futebol:classificacao' %}">Classificação</a>
+        |
+        <a href="{% url 'futebol:partidas' %}">Partidas</a>
+        |
+        <a href="{% url 'futebol:jogadores' %}">Jogadores</a>
+        |
+        <a href="{% url 'futebol:comparacao' %}">Comparação</a>
+        |
+        <a href="{% url 'core:sobre' %}">Sobre</a>
+    </nav>
+
+    <h1>Comparação de jogadores</h1>
+
+    <h2>Brasileirão {{ temporada.competicao.nome }} — {{ temporada.ano }}</h2>
+
+    <form method="get" action="{% url 'futebol:comparacao' %}">
+        {% for seletor in seletores %}
+            <fieldset
+                class="seletor-jogador"
+                data-selecionado="{{ seletor.selecionado }}"
+            >
+                <legend>{{ seletor.rotulo }}</legend>
+
+                <p>
+                    <label for="busca-{{ seletor.campo }}">Buscar nome:</label>
+
+                    <input
+                        type="search"
+                        id="busca-{{ seletor.campo }}"
+                        class="busca-jogador"
+                        placeholder="Digite parte do nome"
+                    >
+                </p>
+
+                <p>
+                    <label for="clube-{{ seletor.campo }}">
+                        Atuou pelo clube:
+                    </label>
+
+                    <select
+                        id="clube-{{ seletor.campo }}"
+                        class="filtro-clube"
+                    >
+                        <option value="">Todos</option>
+
+                        {% for clube in clubes_disponiveis %}
+                            <option value="{{ clube.id }}">
+                                {{ clube.nome }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </p>
+
+                <p>
+                    <label for="posicao-{{ seletor.campo }}">
+                        Posição principal:
+                    </label>
+
+                    <select
+                        id="posicao-{{ seletor.campo }}"
+                        class="filtro-posicao"
+                    >
+                        <option value="">Todas</option>
+
+                        {% for posicao in posicoes_disponiveis %}
+                            <option value="{{ posicao }}">
+                                {{ posicao }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </p>
+
+                <p>
+                    <label for="{{ seletor.campo }}">Jogador:</label>
+
+                    <select
+                        id="{{ seletor.campo }}"
+                        name="{{ seletor.campo }}"
+                        class="opcoes-jogador"
+                        required
+                    >
+                        <option value="">Selecione</option>
+
+                        {% for jogador in jogadores %}
+                            <option
+                                value="{{ jogador.id }}"
+                                {% if seletor.selecionado == jogador.id|stringformat:"s" %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ jogador.nome }} —
+                                {{ jogador.posicao_principal|default:"Não informada" }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </p>
+
+                <p class="quantidade-opcoes" aria-live="polite"></p>
+            </fieldset>
+        {% endfor %}
+
+        <p>
+            Os filtros de clube consideram atuações na temporada,
+            não necessariamente o elenco atual.
+        </p>
+
+        <button type="submit">Comparar</button>
+
+        <a href="{% url 'futebol:comparacao' %}">
+            Limpar comparação
+        </a>
+    </form>
+
+    {% if erro %}
+        <p role="alert">{{ erro }}</p>
+    {% endif %}
+
+    {% if perfis %}
+        <h2>Jogadores selecionados</h2>
+
+        {% for perfil in perfis %}
+            <p>
+                <a href="{% url 'futebol:detalhe_jogador' perfil.jogador.id %}">
+                    {{ perfil.jogador.nome }}
+                </a>
+
+                —
+                {{ perfil.jogador.posicao_principal|default:"Posição não informada" }}
+            </p>
+        {% endfor %}
+
+        <p>
+            Comparação baseada apenas nas atuações coletadas
+            com minutos jogados em partidas encerradas.
+            Os totais podem estar incompletos.
+        </p>
+
+        <h2>Comparação por 90 minutos</h2>
+
+        <p>
+            Cada indicador usa sua própria escala.
+            Compare o comprimento das barras dentro do mesmo indicador.
+        </p>
+
+        <div id="grafico-comparacao"></div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Indicador</th>
+
+                    {% for perfil in perfis %}
+                        <th scope="col">
+                            {{ perfil.jogador.nome }}
+                        </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for linha in linhas %}
+                    <tr>
+                        <th scope="row">{{ linha.rotulo }}</th>
+
+                        <td>
+                            {% if linha.valor1 != None %}
+                                {{ linha.valor1|floatformat:linha.casas }}
+                            {% else %}
+                                –
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if linha.valor2 != None %}
+                                {{ linha.valor2|floatformat:linha.casas }}
+                            {% else %}
+                                –
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p>
+            Métricas por 90 minutos ajustam os totais ao tempo jogado.
+            Amostras pequenas podem gerar valores elevados.
+            Considere também a posição dos atletas.
+        </p>
+
+        <p>
+            A nota média considera somente as notas disponíveis,
+            sem ponderação por minutos.
+        </p>
+    {% else %}
+        {% if not erro %}
+            <p>Selecione dois jogadores para visualizar a comparação.</p>
+        {% endif %}
+    {% endif %}
+
+    {{ opcoes_jogadores|json_script:"dados-jogadores" }}
+    {{ dados_grafico|json_script:"dados-grafico" }}
+</body>
+</html>

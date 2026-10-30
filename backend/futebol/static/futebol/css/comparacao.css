@@ -1,0 +1,49 @@
+.seletor-jogador {
+    margin: 16px 0;
+    max-width: 700px;
+}
+
+.seletor-jogador input,
+.seletor-jogador select {
+    max-width: 100%;
+    padding: 6px;
+}
+
+#grafico-comparacao {
+    max-width: 850px;
+}
+
+.indicador-grafico {
+    margin: 24px 0;
+}
+
+.linha-grafico {
+    margin: 12px 0;
+}
+
+.rotulo-barra {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 5px;
+}
+
+.trilho-barra {
+    height: 20px;
+    background: #edf0f4;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.barra-jogador {
+    height: 100%;
+    border-radius: 4px;
+}
+
+.cor-jogador-1 {
+    background: #00a86b;
+}
+
+.cor-jogador-2 {
+    background: #1e70cf;
+}

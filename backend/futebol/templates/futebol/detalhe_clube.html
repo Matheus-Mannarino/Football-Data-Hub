@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ clube.nome }} | Football Data Hub</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'core:home' %}">Home</a>
+        |
+        <a href="{% url 'futebol:classificacao' %}">Classificação</a>
+        |
+        <a href="{% url 'futebol:partidas' %}">Partidas</a>
+        |
+        <a href="{% url 'futebol:jogadores' %}">Jogadores</a>
+        |
+        <a href="{% url 'futebol:comparacao' %}">Comparação</a>
+        |
+        <a href="{% url 'core:sobre' %}">Sobre</a>
+    </nav>
+
+    <h1>{{ clube.nome }}</h1>
+
+    {% if clube.logo %}
+        <img
+            src="{{ clube.logo }}"
+            alt="Escudo de {{ clube.nome }}"
+            width="80"
+        >
+    {% endif %}
+
+    <p>
+        Brasileirão {{ temporada.competicao.nome }} — {{ temporada.ano }}
+    </p>
+
+    <h2>Campanha na competição</h2>
+
+    {% if classificacao_clube %}
+        <ul>
+            <li>Posição: {{ classificacao_clube.posicao }}º</li>
+            <li>Pontos: {{ classificacao_clube.pontos }}</li>
+            <li>Jogos: {{ classificacao_clube.jogos }}</li>
+            <li>Vitórias: {{ classificacao_clube.vitorias }}</li>
+            <li>Empates: {{ classificacao_clube.empates }}</li>
+            <li>Derrotas: {{ classificacao_clube.derrotas }}</li>
+            <li>Gols pró: {{ classificacao_clube.gols_pro }}</li>
+            <li>Gols contra: {{ classificacao_clube.gols_contra }}</li>
+            <li>Saldo: {{ classificacao_clube.saldo_gols }}</li>
+            <li>
+                Aproveitamento:
+                {{ classificacao_clube.aproveitamento|floatformat:1 }}%
+            </li>
+        </ul>
+
+        <p>
+            Fonte: classificação da Highlightly.
+            Atualizada em
+            {{ classificacao_clube.atualizado_em|date:"d/m/Y H:i" }}.
+        </p>
+    {% else %}
+        <p>Classificação não disponível para este clube.</p>
+    {% endif %}
+
+    <h2>Últimos resultados cadastrados</h2>
+
+    {% for partida in ultimos_resultados %}
+        <p>
+            {{ partida.data_hora|date:"d/m/Y H:i" }} —
+            {{ partida.clube_mandante.nome }}
+            {{ partida.gols_mandante|default_if_none:"–" }}
+            x
+            {{ partida.gols_visitante|default_if_none:"–" }}
+            {{ partida.clube_visitante.nome }}
+            — Rodada {{ partida.rodada }}
+
+            — <a href="{% url 'futebol:detalhe_partida' partida.id %}">
+                Ver detalhes
+            </a>
+        </p>
+    {% empty %}
+        <p>Nenhum resultado cadastrado.</p>
+    {% endfor %}
+
+    <h2>Próximos jogos cadastrados</h2>
+
+    {% for partida in proximos_jogos %}
+        <p>
+            {{ partida.data_hora|date:"d/m/Y H:i" }} —
+            {{ partida.clube_mandante.nome }}
+            x
+            {{ partida.clube_visitante.nome }}
+            — Rodada {{ partida.rodada }}
+
+            — <a href="{% url 'futebol:detalhe_partida' partida.id %}">
+                Ver detalhes
+            </a>
+        </p>
+    {% empty %}
+        <p>Nenhum próximo jogo cadastrado.</p>
+    {% endfor %}
+
+    <h2>Jogadores com atuação pelo clube</h2>
+
+    <p>
+        Estatísticas calculadas com as atuações disponíveis
+        em {{ partidas_com_atuacoes }} das
+        {{ total_finalizadas }} partidas encerradas cadastradas
+        para o clube.
+        Os números podem estar incompletos.
+    </p>
+
+    <p>
+        Esta lista reúne jogadores que atuaram pelo clube na temporada
+        e pode incluir atletas que já foram transferidos.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Jogador</th>
+                <th scope="col">Jogos</th>
+                <th scope="col">Minutos</th>
+                <th scope="col">Gols</th>
+                <th scope="col">Assistências</th>
+                <th scope="col">Nota média</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for jogador in jogadores %}
+                <tr>
+                    <td>
+                        <a href="{% url 'futebol:detalhe_jogador' jogador.jogador_id %}">
+                            {{ jogador.jogador__nome }}
+                        </a>
+                    </td>
+                    <td>{{ jogador.jogos }}</td>
+                    <td>{{ jogador.minutos }}</td>
+                    <td>{{ jogador.gols }}</td>
+                    <td>{{ jogador.assistencias }}</td>
+
+                    <td>
+                        {% if jogador.nota_media != None %}
+                            {{ jogador.nota_media|floatformat:2 }}
+                        {% else %}
+                            –
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">
+                        Nenhuma atuação disponível para este clube.
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>
+        <a href="{% url 'futebol:classificacao' %}">
+            Voltar para classificação
+        </a>
+    </p>
+</body>
+</html>

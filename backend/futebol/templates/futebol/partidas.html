@@ -12,6 +12,12 @@
         <a href="{% url 'futebol:classificacao' %}">Classificação</a>
         |
         <a href="{% url 'futebol:partidas' %}">Partidas</a>
+        |
+        <a href="{% url 'futebol:jogadores' %}">Jogadores</a>
+        |
+        <a href="{% url 'futebol:comparacao' %}">Comparação</a>
+        |
+        <a href="{% url 'core:sobre' %}">Sobre</a>
     </nav>
 
     <h1>Partidas</h1>
@@ -82,6 +88,7 @@
                             <th scope="col">Placar</th>
                             <th scope="col">Visitante</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Detalhes</th>
                         </tr>
                     </thead>
 
@@ -92,7 +99,11 @@
                                     {{ partida.data_hora|date:"d/m/Y H:i" }}
                                 </td>
 
-                                <td>{{ partida.clube_mandante.nome }}</td>
+                                <td>
+                                    <a href="{% url 'futebol:detalhe_clube' partida.clube_mandante_id %}">
+                                        {{ partida.clube_mandante.nome }}
+                                    </a>
+                                </td>
 
                                 <td>
                                     {% if partida.status_partida == "Finished" %}
@@ -104,7 +115,11 @@
                                     {% endif %}
                                 </td>
 
-                                <td>{{ partida.clube_visitante.nome }}</td>
+                                <td>
+                                    <a href="{% url 'futebol:detalhe_clube' partida.clube_visitante_id %}">
+                                        {{ partida.clube_visitante.nome }}
+                                    </a>
+                                </td>
 
                                 <td>
                                     {% if partida.status_partida == "Finished" %}
@@ -116,6 +131,12 @@
                                     {% else %}
                                         {{ partida.status_partida }}
                                     {% endif %}
+                                </td>
+
+                                <td>
+                                    <a href="{% url 'futebol:detalhe_partida' partida.id %}">
+                                        Ver detalhes
+                                    </a>
                                 </td>
                             </tr>
                         {% endfor %}

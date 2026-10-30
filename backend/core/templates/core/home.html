@@ -13,6 +13,12 @@
         <a href="{% url 'futebol:classificacao' %}">Classificação</a>
         |
         <a href="{% url 'futebol:partidas' %}">Partidas</a>
+        |
+        <a href="{% url 'futebol:jogadores' %}">Jogadores</a>
+        |
+        <a href="{% url 'futebol:comparacao' %}">Comparação</a>
+        |
+        <a href="{% url 'core:sobre' %}">Sobre</a>
     </nav>
 
     <h1>Football Data Hub</h1>
@@ -32,12 +38,20 @@
         {% for partida in ultimos_resultados %}
             <p>
                 {{ partida.data_hora|date:"d/m/Y H:i" }} —
-                {{ partida.clube_mandante.nome }}
+                <a href="{% url 'futebol:detalhe_clube' partida.clube_mandante_id %}">
+                    {{ partida.clube_mandante.nome }}
+                </a>
                 {{ partida.gols_mandante|default_if_none:"–" }}
                 x
                 {{ partida.gols_visitante|default_if_none:"–" }}
-                {{ partida.clube_visitante.nome }}
+                <a href="{% url 'futebol:detalhe_clube' partida.clube_visitante_id %}">
+                    {{ partida.clube_visitante.nome }}
+                </a>
                 — Rodada {{ partida.rodada }}
+
+                — <a href="{% url 'futebol:detalhe_partida' partida.id %}">
+                    Ver detalhes
+                </a>
             </p>
         {% empty %}
             <p>Nenhuma partida encerrada nesta temporada.</p>
@@ -48,10 +62,18 @@
         {% for partida in proximos_jogos %}
             <p>
                 {{ partida.data_hora|date:"d/m/Y H:i" }} —
-                {{ partida.clube_mandante.nome }}
+                <a href="{% url 'futebol:detalhe_clube' partida.clube_mandante_id %}">
+                    {{ partida.clube_mandante.nome }}
+                </a>
                 x
-                {{ partida.clube_visitante.nome }}
+                <a href="{% url 'futebol:detalhe_clube' partida.clube_visitante_id %}">
+                    {{ partida.clube_visitante.nome }}
+                </a>
                 — Rodada {{ partida.rodada }}
+
+                — <a href="{% url 'futebol:detalhe_partida' partida.id %}">
+                    Ver detalhes
+                </a>
             </p>
         {% empty %}
             <p>Nenhum próximo jogo cadastrado.</p>

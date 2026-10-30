@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre | Football Data Hub</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'core:home' %}">Home</a>
+        |
+        <a href="{% url 'futebol:classificacao' %}">Classificação</a>
+        |
+        <a href="{% url 'futebol:partidas' %}">Partidas</a>
+        |
+        <a href="{% url 'futebol:jogadores' %}">Jogadores</a>
+        |
+        <a href="{% url 'futebol:comparacao' %}">Comparação</a>
+        |
+        <a href="{% url 'core:sobre' %}" aria-current="page">Sobre</a>
+    </nav>
+
+    <main>
+        <h1>Sobre o Football Data Hub</h1>
+
+        <section>
+            <h2>O projeto</h2>
+
+            <p>
+                O Football Data Hub é um projeto acadêmico que reúne
+                informações do Campeonato Brasileiro Série A de 2026
+                em uma plataforma de consulta e análise de dados.
+            </p>
+
+            <p>
+                O objetivo é facilitar a exploração de resultados,
+                campanhas dos clubes e desempenho dos jogadores,
+                aplicando conhecimentos de banco de dados,
+                desenvolvimento web e análise de dados.
+            </p>
+        </section>
+
+        <section>
+            <h2>O que você encontra na plataforma</h2>
+
+            <ul>
+                <li>Visão geral da competição e seus jogos.</li>
+                <li>Classificação do campeonato.</li>
+                <li>Partidas com filtros por rodada e status.</li>
+                <li>Detalhes dos confrontos e atuações disponíveis.</li>
+                <li>Campanha e jogadores com atuação por clube.</li>
+                <li>Busca de jogadores e histórico de atuações.</li>
+                <li>
+                    Comparação de jogadores por totais e métricas
+                    por 90 minutos.
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Origem e atualização dos dados</h2>
+
+            <p>
+                Os dados são obtidos pela API Highlightly e armazenados
+                em um banco PostgreSQL. O aplicativo consulta essa base
+                para apresentar as informações.
+            </p>
+
+            <p>
+                A classificação é coletada diretamente do recurso de
+                classificação da API. Ela não é calculada a partir
+                das partidas disponíveis em nossa coleta.
+            </p>
+
+            <p>
+                A classificação e os dados das partidas são atualizados
+                por processos separados e podem refletir momentos
+                diferentes. A plataforma não oferece atualização
+                em tempo real.
+            </p>
+        </section>
+
+        <section>
+            <h2>Como interpretar as estatísticas</h2>
+
+            <p>
+                As estatísticas dos jogadores consideram as atuações
+                disponíveis em partidas encerradas, com minutos jogados
+                maiores que zero.
+            </p>
+
+            <p>
+                A nota média é a média aritmética das notas disponíveis,
+                sem ponderação pelo tempo jogado. Notas ausentes não
+                entram no cálculo.
+            </p>
+
+            <p>
+                As métricas por 90 minutos são calculadas dividindo
+                o total de cada indicador pelos minutos registrados
+                e multiplicando o resultado por 90.
+            </p>
+
+            <p>
+                Essas métricas ajudam a comparar atletas com tempos
+                de jogo diferentes. A interpretação deve considerar
+                a posição e o tamanho da amostra de cada jogador.
+            </p>
+        </section>
+
+        <section>
+            <h2>Limitações da base</h2>
+
+            <ul>
+                <li>
+                    Algumas partidas podem não possuir estatísticas
+                    individuais coletadas. Por isso, os totais dos
+                    jogadores podem estar incompletos.
+                </li>
+
+                <li>
+                    A ausência de estatísticas não significa que
+                    o jogador teve desempenho igual a zero.
+                </li>
+
+                <li>
+                    Os clubes associados aos atletas representam
+                    atuações registradas na temporada, não
+                    necessariamente o elenco atual.
+                </li>
+
+                <li>
+                    Datas, resultados e status dependem da última
+                    atualização da base e podem sofrer alterações.
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Tecnologias utilizadas</h2>
+
+            <ul>
+                <li>Python e Django no backend.</li>
+                <li>PostgreSQL para armazenamento dos dados.</li>
+                <li>HTML e CSS na estrutura e apresentação.</li>
+                <li>JavaScript nos filtros e gráficos da comparação.</li>
+                <li>Git e GitHub para controle de versão.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Equipe</h2>
+
+            <ul>
+                <li>Matheus Mannarino</li>
+                <li>João Loss</li>
+                <li>Giovanni Vilela</li>
+                <li>Pedro Torres</li>
+                <li>Antonio Vieira</li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

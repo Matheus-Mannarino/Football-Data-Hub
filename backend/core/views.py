@@ -59,3 +59,6 @@ def home(request):
     }
 
     return render(request, "core/home.html", contexto)
+
+def sobre(request):
+    return render(request, "core/sobre.html")

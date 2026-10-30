@@ -12,6 +12,12 @@
         <a href="{% url 'futebol:classificacao' %}">Classificação</a>
         |
         <a href="{% url 'futebol:partidas' %}">Partidas</a>
+        |
+        <a href="{% url 'futebol:jogadores' %}">Jogadores</a>
+        |
+        <a href="{% url 'futebol:comparacao' %}">Comparação</a>
+        |
+        <a href="{% url 'core:sobre' %}">Sobre</a>
     </nav>
 
     <h1>Classificação</h1>
@@ -48,7 +54,11 @@
                 {% for linha in classificacao %}
                     <tr>
                         <td>{{ linha.posicao }}</td>
-                        <td>{{ linha.clube.nome }}</td>
+                        <td>
+                            <a href="{% url 'futebol:detalhe_clube' linha.clube_id %}">
+                                {{ linha.clube.nome }}
+                            </a>
+                        </td>
                         <td><strong>{{ linha.pontos }}</strong></td>
                         <td>{{ linha.jogos }}</td>
                         <td>{{ linha.vitorias }}</td>
