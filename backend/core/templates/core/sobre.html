@@ -1,12 +1,13 @@
 {% extends "core/base.html" %}
-
+{% load static %}
 {% block title %}Sobre | Football Data Hub{% endblock %}
-
+{% block extra_css %}<link rel="stylesheet" href="{% static 'core/css/sobre.css' %}">{% endblock %}
 {% block content %}
-<h1>Sobre o Football Data Hub</h1>
-
-        <section>
-            <h2>O projeto</h2>
+<div class="about-page">
+    <header class="about-hero"><p class="about-eyebrow">FUTEBOL, DADOS E CONHECIMENTO</p><h1>Sobre o<br><span>Football Data Hub.</span></h1><p>Uma plataforma acadêmica para explorar o Brasileirão por meio dos dados.</p><a href="{% url 'core:home' %}">Explorar a plataforma <span aria-hidden="true">→</span></a></header>
+    <div class="about-grid">
+<section class="about-panel about-projeto about-wide" aria-labelledby="about-projeto"><p class="about-section-number" aria-hidden="true">01</p>
+            <h2 id="about-projeto">O projeto</h2>
 
             <p>
                 O Football Data Hub é um projeto acadêmico que reúne
@@ -21,9 +22,8 @@
                 desenvolvimento web e análise de dados.
             </p>
         </section>
-
-        <section>
-            <h2>O que você encontra na plataforma</h2>
+<section class="about-panel about-plataforma" aria-labelledby="about-plataforma"><p class="about-section-number" aria-hidden="true">02</p>
+            <h2 id="about-plataforma">O que você encontra na plataforma</h2>
 
             <ul>
                 <li>Visão geral da competição e seus jogos.</li>
@@ -38,9 +38,8 @@
                 </li>
             </ul>
         </section>
-
-        <section>
-            <h2>Origem e atualização dos dados</h2>
+<section class="about-panel about-origem" aria-labelledby="about-origem"><p class="about-section-number" aria-hidden="true">03</p>
+            <h2 id="about-origem">Origem e atualização dos dados</h2>
 
             <p>
                 Os dados são obtidos pela API Highlightly e armazenados
@@ -61,9 +60,8 @@
                 em tempo real.
             </p>
         </section>
-
-        <section>
-            <h2>Como interpretar as estatísticas</h2>
+<section class="about-panel about-interpretacao" aria-labelledby="about-interpretacao"><p class="about-section-number" aria-hidden="true">04</p>
+            <h2 id="about-interpretacao">Como interpretar as estatísticas</h2>
 
             <p>
                 As estatísticas dos jogadores consideram as atuações
@@ -89,9 +87,8 @@
                 a posição e o tamanho da amostra de cada jogador.
             </p>
         </section>
-
-        <section>
-            <h2>Limitações da base</h2>
+<section class="about-panel about-limitacoes" aria-labelledby="about-limitacoes"><p class="about-section-number" aria-hidden="true">05</p>
+            <h2 id="about-limitacoes">Limitações da base</h2>
 
             <ul>
                 <li>
@@ -117,9 +114,8 @@
                 </li>
             </ul>
         </section>
-
-        <section>
-            <h2>Tecnologias utilizadas</h2>
+<section class="about-panel about-tecnologias about-wide" aria-labelledby="about-tecnologias"><p class="about-section-number" aria-hidden="true">06</p>
+            <h2 id="about-tecnologias">Tecnologias utilizadas</h2>
 
             <ul>
                 <li>Python e Django no backend.</li>
@@ -129,9 +125,8 @@
                 <li>Git e GitHub para controle de versão.</li>
             </ul>
         </section>
-
-        <section>
-            <h2>Equipe</h2>
+<section class="about-panel about-equipe about-wide" aria-labelledby="about-equipe"><p class="about-section-number" aria-hidden="true">07</p>
+            <h2 id="about-equipe">Equipe</h2>
 
             <ul>
                 <li>Matheus Mannarino</li>
@@ -141,4 +136,7 @@
                 <li>Antonio Vieira</li>
             </ul>
         </section>
+    </div>
+    <aside class="about-closing"><div><h2>Explore os números. Entenda o jogo.</h2><p>Consulte resultados, conheça as campanhas e compare jogadores.</p></div><a href="{% url 'futebol:comparacao' %}">Comparar jogadores →</a></aside>
+</div>
 {% endblock %}
