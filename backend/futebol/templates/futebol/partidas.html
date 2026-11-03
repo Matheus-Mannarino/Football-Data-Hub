@@ -1,137 +1,39 @@
 {% extends "core/base.html" %}
-
+{% load static %}
 {% block title %}Partidas | Football Data Hub{% endblock %}
-
+{% block extra_css %}<link rel="stylesheet" href="{% static 'futebol/css/partidas.css' %}">{% endblock %}
+{% block extra_js %}<script src="{% static 'futebol/js/partidas.js' %}" defer></script>{% endblock %}
 {% block content %}
-<h1>Partidas</h1>
-
+<div class="fixtures">
+    <header class="fixtures-heading"><p class="fixtures-eyebrow">CADA RODADA, UMA HISTÓRIA</p><h1>Partidas</h1><p>Resultados, próximos confrontos e os detalhes de cada jogo.</p></header>
     {% if temporada %}
-        <h2>Brasileirão {{ temporada.competicao.nome }} — {{ temporada.ano }}</h2>
-
-        <form method="get" action="{% url 'futebol:partidas' %}">
-            <label for="rodada">Rodada:</label>
-
-            <select name="rodada" id="rodada">
-                <option value="">Todas</option>
-
-                {% for rodada in rodadas %}
-                    <option
-                        value="{{ rodada }}"
-                        {% if rodada_selecionada == rodada|stringformat:"s" %}
-                            selected
-                        {% endif %}
-                    >
-                        {{ rodada }}
-                    </option>
-                {% endfor %}
-            </select>
-
-            <label for="status">Status:</label>
-
-            <select name="status" id="status">
-                <option value="">Todos</option>
-
-                {% for valor, rotulo in opcoes_status %}
-                    <option
-                        value="{{ valor }}"
-                        {% if status_selecionado == valor %}
-                            selected
-                        {% endif %}
-                    >
-                        {{ rotulo }}
-                    </option>
-                {% endfor %}
-            </select>
-
-            <button type="submit">Filtrar</button>
-
-            <a href="{% url 'futebol:partidas' %}">
-                Limpar filtros
-            </a>
-        </form>
-
-        <p>Partidas encontradas: {{ total_filtrado }}</p>
-
-        <p>
-            Resultados e status refletem a última atualização
-            da base de partidas.
-        </p>
-
-        {% regroup partidas by rodada as grupos_rodadas %}
-
-        {% for grupo in grupos_rodadas %}
-            <section>
-                <h2>Rodada {{ grupo.grouper }}</h2>
-
-                <div class="table-scroll" role="region" aria-label="Tabela de dados" tabindex="0">
-<table>
-                    <thead>
-                        <tr>
-                            <th scope="col">Data e hora</th>
-                            <th scope="col">Mandante</th>
-                            <th scope="col">Placar</th>
-                            <th scope="col">Visitante</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Detalhes</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {% for partida in grupo.list %}
-                            <tr>
-                                <td>
-                                    {{ partida.data_hora|date:"d/m/Y H:i" }}
-                                </td>
-
-                                <td>
-                                    <a href="{% url 'futebol:detalhe_clube' partida.clube_mandante_id %}">
-                                        {{ partida.clube_mandante.nome }}
-                                    </a>
-                                </td>
-
-                                <td>
-                                    {% if partida.status_partida == "Finished" %}
-                                        {{ partida.gols_mandante|default_if_none:"–" }}
-                                        x
-                                        {{ partida.gols_visitante|default_if_none:"–" }}
-                                    {% else %}
-                                        —
-                                    {% endif %}
-                                </td>
-
-                                <td>
-                                    <a href="{% url 'futebol:detalhe_clube' partida.clube_visitante_id %}">
-                                        {{ partida.clube_visitante.nome }}
-                                    </a>
-                                </td>
-
-                                <td>
-                                    {% if partida.status_partida == "Finished" %}
-                                        Encerrada
-                                    {% elif partida.status_partida == "Not started" %}
-                                        Não iniciada
-                                    {% elif partida.status_partida == "Postponed" %}
-                                        Adiada
-                                    {% else %}
-                                        {{ partida.status_partida }}
-                                    {% endif %}
-                                </td>
-
-                                <td>
-                                    <a href="{% url 'futebol:detalhe_partida' partida.id %}">
-                                        Ver detalhes
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-</div>
-            </section>
-        {% empty %}
-            <p>Nenhuma partida encontrada para os filtros selecionados.</p>
+    <div class="fixtures-season"><h2>Brasileirão {{ temporada.competicao.nome }} · {{ temporada.ano }}</h2><span>Dados da última coleta</span></div>
+    <form class="fixtures-filters" method="get" action="{% url 'futebol:partidas' %}" aria-label="Filtros de partidas">
+        <div class="fixtures-field"><label for="rodada">Rodada</label><select name="rodada" id="rodada"><option value="">Todas as rodadas</option>{% for rodada in rodadas %}<option value="{{ rodada }}"{% if rodada_selecionada == rodada|stringformat:"s" %} selected{% endif %}>Rodada {{ rodada }}</option>{% endfor %}</select></div>
+        <div class="fixtures-field"><label for="status">Status</label><select name="status" id="status"><option value="">Todos os status</option>{% for valor, rotulo in opcoes_status %}<option value="{{ valor }}"{% if status_selecionado == valor %} selected{% endif %}>{{ rotulo }}</option>{% endfor %}</select></div>
+        <button type="submit">Filtrar partidas</button><a class="fixtures-clear" href="{% url 'futebol:partidas' %}">Limpar filtros</a>
+    </form>
+    <div class="fixtures-summary"><p><strong>{{ total_filtrado }}</strong> partida{{ total_filtrado|pluralize:"s" }} encontrada{{ total_filtrado|pluralize:"s" }}</p><p>Horários no fuso de Brasília.</p></div>
+    {% regroup partidas by rodada as grupos_rodadas %}
+    {% for grupo in grupos_rodadas %}
+    <section class="fixtures-round" aria-labelledby="round-{{ forloop.counter }}">
+        <div class="round-heading"><h2 id="round-{{ forloop.counter }}">Rodada {{ grupo.grouper|default_if_none:"–" }}</h2><span>{{ grupo.list|length }} jogo{{ grupo.list|length|pluralize:"s" }}</span></div>
+        <div class="fixtures-grid">
+        {% for partida in grupo.list %}
+            <article class="fixture-card">
+                <div class="fixture-meta"><span>{{ partida.data_hora|date:"d/m/Y · H:i"|default:"Data a definir" }}</span><span class="fixture-status{% if partida.status_partida == 'Finished' %} finished{% elif partida.status_partida == 'Postponed' %} postponed{% endif %}">{% if partida.status_partida == "Finished" %}Encerrada{% elif partida.status_partida == "Not started" %}Não iniciada{% elif partida.status_partida == "Postponed" %}Adiada{% else %}{{ partida.status_partida }}{% endif %}</span></div>
+                <div class="fixture-teams">
+                    <a class="fixture-team" href="{% url 'futebol:detalhe_clube' partida.clube_mandante_id %}"><span class="fixture-crest-slot">{% if partida.clube_mandante.logo %}<img class="fixture-crest" src="{{ partida.clube_mandante.logo }}" alt="" width="40" height="40" loading="lazy">{% else %}<span class="fixture-crest-fallback" aria-hidden="true">{{ partida.clube_mandante.nome|first }}</span>{% endif %}</span><span>{{ partida.clube_mandante.nome }}</span><small>Mandante</small></a>
+                    <div class="fixture-score">{% if partida.status_partida == "Finished" %}<span>{{ partida.gols_mandante|default_if_none:"–" }}</span><span class="fixture-divider">:</span><span>{{ partida.gols_visitante|default_if_none:"–" }}</span>{% else %}<span class="fixture-versus">vs</span>{% endif %}</div>
+                    <a class="fixture-team" href="{% url 'futebol:detalhe_clube' partida.clube_visitante_id %}"><span class="fixture-crest-slot">{% if partida.clube_visitante.logo %}<img class="fixture-crest" src="{{ partida.clube_visitante.logo }}" alt="" width="40" height="40" loading="lazy">{% else %}<span class="fixture-crest-fallback" aria-hidden="true">{{ partida.clube_visitante.nome|first }}</span>{% endif %}</span><span>{{ partida.clube_visitante.nome }}</span><small>Visitante</small></a>
+                </div>
+                <a class="fixture-details" href="{% url 'futebol:detalhe_partida' partida.id %}" aria-label="Ver detalhes: {{ partida.clube_mandante.nome }} x {{ partida.clube_visitante.nome }}">Ver detalhes da partida <span aria-hidden="true">→</span></a>
+            </article>
         {% endfor %}
-    {% else %}
-        <p>Temporada do Brasileirão 2026 não encontrada.</p>
-    {% endif %}
+        </div>
+    </section>
+    {% empty %}<div class="fixtures-empty"><h2>Nenhuma partida encontrada</h2><p>Tente outra rodada ou outro status para consultar os confrontos.</p><a href="{% url 'futebol:partidas' %}">Limpar filtros →</a></div>{% endfor %}
+    <aside class="fixtures-note"><strong>Sobre os resultados</strong><p>Resultados, datas e status refletem a última atualização da base de partidas e podem sofrer alterações. A plataforma não oferece atualização em tempo real. <a href="{% url 'core:sobre' %}">Conheça os dados →</a></p></aside>
+    {% else %}<p class="fixtures-empty">Temporada do Brasileirão 2026 não encontrada.</p>{% endif %}
+</div>
 {% endblock %}
