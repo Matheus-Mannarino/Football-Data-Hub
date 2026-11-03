@@ -1,74 +1,54 @@
 {% extends "core/base.html" %}
-
+{% load static %}
 {% block title %}Classificação | Football Data Hub{% endblock %}
-
+{% block extra_css %}<link rel="stylesheet" href="{% static 'futebol/css/classificacao.css' %}">{% endblock %}
+{% block extra_js %}<script src="{% static 'futebol/js/classificacao.js' %}" defer></script>{% endblock %}
 {% block content %}
-<h1>Classificação</h1>
-
+<div class="standings">
+    <header class="standings-heading">
+        <div><p class="standings-eyebrow">A COMPETIÇÃO EM NÚMEROS</p><h1>Classificação</h1><p class="standings-subtitle">Acompanhe a campanha de cada clube no Brasileirão.</p></div>
+        {% if temporada %}<div class="season-badge"><span>TEMPORADA</span><strong>{{ temporada.ano }}</strong></div>{% endif %}
+    </header>
     {% if temporada %}
-        <h2>Brasileirão {{ temporada.competicao.nome }} — {{ temporada.ano }}</h2>
-
-        {% if atualizado_em %}
-            <p>
-                Dados atualizados em
-                {{ atualizado_em|date:"d/m/Y H:i" }}.
-                Fonte: Highlightly.
-            </p>
-        {% endif %}
-
-        <div class="table-scroll" role="region" aria-label="Tabela de dados" tabindex="0">
-<table>
-            <thead>
-                <tr>
-                    <th scope="col">Posição</th>
-                    <th scope="col">Clube</th>
-                    <th scope="col">Pontos</th>
-                    <th scope="col">J</th>
-                    <th scope="col">V</th>
-                    <th scope="col">E</th>
-                    <th scope="col">D</th>
-                    <th scope="col">GP</th>
-                    <th scope="col">GC</th>
-                    <th scope="col">SG</th>
-                    <th scope="col">Aproveitamento</th>
-                </tr>
-            </thead>
-
-            <tbody>
+    <section class="standings-panel" aria-labelledby="competition-title">
+        <div class="standings-toolbar"><div><p class="standings-eyebrow">CAMPEONATO BRASILEIRO</p><h2 id="competition-title">{{ temporada.competicao.nome }} · {{ temporada.ano }}</h2></div><span class="source-badge">Fonte: Highlightly</span></div>
+        <p class="standings-scroll-hint" id="table-hint">No celular, deslize a tabela para ver todas as estatísticas. Selecione um clube para explorar sua campanha.</p>
+        <div class="standings-scroll" role="region" aria-label="Classificação do Brasileirão" aria-describedby="table-hint" tabindex="0">
+            <table class="standings-table">
+                <caption class="visually-hidden">Classificação do Brasileirão {{ temporada.ano }}, ordenada pela posição informada pela Highlightly.</caption>
+                <thead><tr>
+                    <th scope="col" class="position-col"><span aria-hidden="true">#</span><span class="visually-hidden">Posição</span></th>
+                    <th scope="col" class="club-col">Clube</th>
+                    <th scope="col" class="points-col"><abbr title="Pontos">PTS</abbr></th>
+                    <th scope="col"><abbr title="Jogos">J</abbr></th>
+                    <th scope="col"><abbr title="Vitórias">V</abbr></th>
+                    <th scope="col"><abbr title="Empates">E</abbr></th>
+                    <th scope="col"><abbr title="Derrotas">D</abbr></th>
+                    <th scope="col"><abbr title="Gols pró">GP</abbr></th>
+                    <th scope="col"><abbr title="Gols contra">GC</abbr></th>
+                    <th scope="col"><abbr title="Saldo de gols">SG</abbr></th>
+                    <th scope="col"><abbr title="Aproveitamento">APROV.</abbr></th>
+                </tr></thead>
+                <tbody>
                 {% for linha in classificacao %}
-                    <tr>
-                        <td>{{ linha.posicao }}</td>
-                        <td>
-                            <a href="{% url 'futebol:detalhe_clube' linha.clube_id %}">
-                                {{ linha.clube.nome }}
-                            </a>
-                        </td>
-                        <td><strong>{{ linha.pontos }}</strong></td>
-                        <td>{{ linha.jogos }}</td>
-                        <td>{{ linha.vitorias }}</td>
-                        <td>{{ linha.empates }}</td>
-                        <td>{{ linha.derrotas }}</td>
-                        <td>{{ linha.gols_pro }}</td>
-                        <td>{{ linha.gols_contra }}</td>
-                        <td>{{ linha.saldo_gols }}</td>
+                    <tr{% if linha.posicao == 1 %} class="leader-row"{% endif %}>
+                        <td class="position-col"><span class="position-number">{{ linha.posicao }}</span></td>
+                        <th scope="row" class="club-col"><a class="standings-club" href="{% url 'futebol:detalhe_clube' linha.clube_id %}"><span class="standings-crest-slot">{% if linha.clube.logo %}<img class="standings-crest" src="{{ linha.clube.logo }}" alt="" width="30" height="30" loading="lazy">{% else %}<span class="standings-crest-fallback" aria-hidden="true">{{ linha.clube.nome|first }}</span>{% endif %}</span><span>{{ linha.clube.nome }}{% if linha.posicao == 1 %}<span class="leader-label">Líder</span>{% endif %}</span></a></th>
+                        <td class="points-col"><strong>{{ linha.pontos }}</strong></td>
+                        <td>{{ linha.jogos }}</td><td>{{ linha.vitorias }}</td><td>{{ linha.empates }}</td><td>{{ linha.derrotas }}</td><td>{{ linha.gols_pro }}</td><td>{{ linha.gols_contra }}</td>
+                        <td class="goal-difference{% if linha.saldo_gols > 0 %} positive{% elif linha.saldo_gols < 0 %} negative{% endif %}">{% if linha.saldo_gols > 0 %}+{% endif %}{{ linha.saldo_gols }}</td>
                         <td>{{ linha.aproveitamento|floatformat:1 }}%</td>
                     </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan="11">
-                            A classificação ainda não foi carregada.
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                {% empty %}<tr><td colspan="11" class="standings-empty">A classificação ainda não foi carregada.</td></tr>{% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="standings-update">{% if atualizado_em %}Atualizada em <strong>{{ atualizado_em|date:"d/m/Y H:i" }}</strong>.{% else %}Data de atualização indisponível.{% endif %} Sem atualização em tempo real.</div>
+    </section>
+    <aside class="standings-notes" aria-labelledby="legend-title">
+        <div><h2 id="legend-title">Entenda a tabela</h2><dl class="standings-legend"><div><dt>PTS</dt><dd>Pontos</dd></div><div><dt>J</dt><dd>Jogos</dd></div><div><dt>V</dt><dd>Vitórias</dd></div><div><dt>E</dt><dd>Empates</dd></div><div><dt>D</dt><dd>Derrotas</dd></div><div><dt>GP</dt><dd>Gols pró</dd></div><div><dt>GC</dt><dd>Gols contra</dd></div><div><dt>SG</dt><dd>Saldo de gols</dd></div><div><dt>APROV.</dt><dd>Aproveitamento</dd></div></dl></div>
+        <p>A classificação vem diretamente da Highlightly. Sua atualização é independente da coleta de partidas e estatísticas dos jogadores. <a href="{% url 'core:sobre' %}">Saiba mais sobre os dados →</a></p>
+    </aside>
+    {% else %}<p class="standings-empty">Temporada do Brasileirão 2026 não encontrada.</p>{% endif %}
 </div>
-
-        <p>
-            J: jogos; V: vitórias; E: empates; D: derrotas;
-            GP: gols pró; GC: gols contra; SG: saldo de gols.
-        </p>
-    {% else %}
-        <p>Temporada do Brasileirão 2026 não encontrada.</p>
-    {% endif %}
 {% endblock %}

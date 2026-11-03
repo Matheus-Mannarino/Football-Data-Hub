@@ -1,0 +1,35 @@
+.standings-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 32px; }
+.standings-eyebrow { font-size: .7rem; font-weight: 750; letter-spacing: .14em; color: #397163; margin: 0 0 10px; }
+.standings-heading h1 { margin-bottom: 12px; }.standings-subtitle { margin: 0; color: var(--muted); }
+.season-badge { display: flex; flex-direction: column; border-left: 3px solid var(--green); padding: 8px 22px; background: white; border-radius: 0 8px 8px 0; }
+.season-badge span { font-size: .6rem; letter-spacing: .13em; color: var(--muted); }.season-badge strong { color: var(--navy); font-size: 1.8rem; line-height: 1.3; }
+.standings .standings-panel { margin: 0; background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.standings-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 26px 28px 16px; }.standings-toolbar h2 { margin: 0; font-size: 1.35rem; }.standings-toolbar .standings-eyebrow { margin-bottom: 6px; }
+.source-badge { padding: 6px 12px; background: #eff4f8; border-radius: 5px; color: var(--muted); font-size: .7rem; white-space: nowrap; }
+.standings-scroll-hint { padding: 0 28px 16px; margin: 0; color: var(--muted); font-size: .78rem; }
+.standings-scroll { overflow-x: auto; isolation: isolate; }
+.standings-table { width: 100%; min-width: 900px; font-size: .85rem; font-variant-numeric: tabular-nums; }
+.standings-table th, .standings-table td { padding: 16px 12px; text-align: center; }
+.standings-table thead th { font-size: .7rem; letter-spacing: .04em; height: 48px; }
+.standings-table abbr { text-decoration: none; cursor: help; }
+.standings-table .position-col { width: 60px; min-width: 60px; }.standings-table .club-col { text-align: left; min-width: 240px; }
+.standings-table tbody .club-col { font-weight: 600; }
+.standings-table tbody tr { --row-bg: white; background: var(--row-bg); }.standings-table tbody tr:nth-child(even) { --row-bg: #f8fafc; }
+.standings-table tbody tr.leader-row { --row-bg: #ecf8f2; }.standings-table tbody tr:hover { --row-bg: #edf4fa; }
+.standings-table .club-col { position: sticky; left: 0; z-index: 1; }
+.standings-table thead .club-col { background: var(--navy); }.standings-table tbody .club-col { background: var(--row-bg); box-shadow: 1px 0 var(--border); }
+.standings-club { display: flex; align-items: center; gap: 12px; color: var(--navy); text-decoration: none; }.standings-club:hover { text-decoration: underline; }
+.standings-crest-slot { flex: 0 0 34px; width: 34px; height: 34px; display: grid; place-items: center; }
+.standings .standings-crest { width: 30px; height: 30px; object-fit: contain; }
+.standings-crest-fallback { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: #e9eef4; color: var(--muted); font-size: .75rem; }
+.position-number { color: var(--muted); font-weight: 650; }.leader-row .position-number { display: inline-grid; place-items: center; width: 28px; height: 28px; background: var(--navy); border-radius: 6px; color: white; }
+.leader-label { display: block; font-size: .6rem; font-weight: 600; color: #216344; }
+.standings-table tbody .points-col { background: #0b1f3a04; color: var(--navy); font-size: 1rem; }.standings-table .goal-difference { font-weight: 650; }.goal-difference.positive { color: #216344; }.goal-difference.negative { color: #a73939; }
+.standings-update { padding: 16px 28px; background: #f8fafc; border-top: 1px solid var(--border); font-size: .75rem; color: var(--muted); }
+.standings-notes { margin-top: 24px; display: grid; grid-template-columns: 1.5fr 1fr; gap: 32px; padding: 26px 28px; border: 1px solid var(--border); border-radius: 12px; }
+.standings-notes h2 { font-size: .95rem; margin: 0 0 16px; }.standings-notes > p { margin: 0; color: var(--muted); font-size: .8rem; border-left: 2px solid var(--green); padding-left: 20px; }.standings-notes > p a { display: block; margin-top: 10px; }
+.standings-legend { display: flex; flex-wrap: wrap; gap: 12px 22px; margin: 0; font-size: .7rem; }.standings-legend > div { display: flex; gap: 6px; }.standings-legend dt { font-weight: 750; color: var(--navy); }.standings-legend dd { margin: 0; color: var(--muted); }
+.standings-empty { padding: 40px !important; text-align: center; color: var(--muted); background: white; }
+.standings .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media(max-width:760px) { .standings-notes { grid-template-columns: 1fr; gap: 22px; }.standings-table { min-width: 810px; }.standings-table .club-col { min-width: 195px; }.standings-table th, .standings-table td { padding: 14px 10px; }.standings-toolbar, .standings-scroll-hint, .standings-update { padding-left: 18px; padding-right: 18px; } }
+@media(max-width:420px) { .standings-heading { align-items: flex-start; gap: 12px; }.season-badge { padding: 8px 12px; }.season-badge strong { font-size: 1.4rem; }.standings-subtitle { font-size: .85rem; }.standings-toolbar { align-items: flex-start; flex-direction: column; gap: 12px; }.standings-notes { padding: 22px 18px; } }
