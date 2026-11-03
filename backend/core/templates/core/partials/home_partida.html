@@ -1,0 +1,15 @@
+<article class="home-match">
+    <div class="match-meta"><span>Rodada {{ partida.rodada|default_if_none:"–" }}</span><span>{{ partida.data_hora|date:"d/m/Y · H:i"|default:"Data a definir" }}</span></div>
+    <div class="match-teams">
+        <a class="home-team" href="{% url 'futebol:detalhe_clube' partida.clube_mandante_id %}">
+            <span class="crest-slot">{% if partida.clube_mandante.logo %}<img class="club-crest" src="{{ partida.clube_mandante.logo }}" width="36" height="36" alt="" loading="lazy">{% else %}<span class="crest-placeholder" aria-hidden="true">{{ partida.clube_mandante.nome|first }}</span>{% endif %}</span>
+            <span>{{ partida.clube_mandante.nome }}</span>
+        </a>
+        <div class="match-score">{% if encerrada %}<span>{{ partida.gols_mandante|default_if_none:"–" }}</span><span class="score-divider">:</span><span>{{ partida.gols_visitante|default_if_none:"–" }}</span>{% else %}<span class="score-versus">vs</span>{% endif %}</div>
+        <a class="home-team" href="{% url 'futebol:detalhe_clube' partida.clube_visitante_id %}">
+            <span class="crest-slot">{% if partida.clube_visitante.logo %}<img class="club-crest" src="{{ partida.clube_visitante.logo }}" width="36" height="36" alt="" loading="lazy">{% else %}<span class="crest-placeholder" aria-hidden="true">{{ partida.clube_visitante.nome|first }}</span>{% endif %}</span>
+            <span>{{ partida.clube_visitante.nome }}</span>
+        </a>
+    </div>
+    <div class="match-bottom"><span class="match-status{% if encerrada %} finished{% endif %}">{% if encerrada %}Encerrada{% else %}Não iniciada{% endif %}</span><a href="{% url 'futebol:detalhe_partida' partida.id %}" aria-label="Ver detalhes: {{ partida.clube_mandante.nome }} x {{ partida.clube_visitante.nome }}">Ver detalhes <span aria-hidden="true">→</span></a></div>
+</article>

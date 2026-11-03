@@ -1,70 +1,46 @@
 {% extends "core/base.html" %}
-
-{% block title %}Football Data Hub{% endblock %}
-
+{% load static %}
+{% block title %}Home | Football Data Hub{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'core/css/home.css' %}">{% endblock %}
+{% block extra_js %}<script src="{% static 'core/js/home.js' %}" defer></script>{% endblock %}
 {% block content %}
-<h1>Football Data Hub</h1>
-
+<div class="home">
+    <section class="home-hero" aria-labelledby="home-title">
+        <div class="hero-copy">
+            <p class="eyebrow">FOOTBALL DATA HUB</p>
+            <h1 id="home-title">O jogo vai além<br>do <span>placar.</span></h1>
+            <p class="hero-description">Explore os resultados, acompanhe os clubes e compare o desempenho dos jogadores do Brasileirão.</p>
+            <div class="hero-actions">
+                <a class="home-button primary" href="{% url 'futebol:classificacao' %}">Ver classificação <span aria-hidden="true">↗</span></a>
+                <a class="home-button secondary" href="{% url 'futebol:comparacao' %}">Comparar jogadores <span aria-hidden="true">→</span></a>
+            </div>
+        </div>
+        <div class="hero-art" aria-hidden="true"><div class="pitch"><div class="pitch-line"></div><div class="pitch-circle"></div><div class="pitch-box top"></div><div class="pitch-box bottom"></div><i class="dot one"></i><i class="dot two"></i><i class="dot three"></i><i class="dot four"></i></div><span class="art-caption">FUTEBOL + DADOS</span></div>
+    </section>
     {% if temporada %}
-        <h2>Brasileirão {{ temporada.competicao.nome }} — {{ temporada.ano }}</h2>
-
-        <ul>
-            <li>Clubes: {{ total_clubes }}</li>
-            <li>Jogadores com atuação: {{ total_jogadores }}</li>
-            <li>Partidas cadastradas: {{ total_partidas }}</li>
-            <li>Partidas encerradas: {{ total_finalizadas }}</li>
-        </ul>
-
-        <h2>Últimos resultados</h2>
-
-        {% for partida in ultimos_resultados %}
-            <p>
-                {{ partida.data_hora|date:"d/m/Y H:i" }} —
-                <a href="{% url 'futebol:detalhe_clube' partida.clube_mandante_id %}">
-                    {{ partida.clube_mandante.nome }}
-                </a>
-                {{ partida.gols_mandante|default_if_none:"–" }}
-                x
-                {{ partida.gols_visitante|default_if_none:"–" }}
-                <a href="{% url 'futebol:detalhe_clube' partida.clube_visitante_id %}">
-                    {{ partida.clube_visitante.nome }}
-                </a>
-                — Rodada {{ partida.rodada }}
-
-                — <a href="{% url 'futebol:detalhe_partida' partida.id %}">
-                    Ver detalhes
-                </a>
-            </p>
-        {% empty %}
-            <p>Nenhuma partida encerrada nesta temporada.</p>
-        {% endfor %}
-
-        <h2>Próximos jogos</h2>
-
-        {% for partida in proximos_jogos %}
-            <p>
-                {{ partida.data_hora|date:"d/m/Y H:i" }} —
-                <a href="{% url 'futebol:detalhe_clube' partida.clube_mandante_id %}">
-                    {{ partida.clube_mandante.nome }}
-                </a>
-                x
-                <a href="{% url 'futebol:detalhe_clube' partida.clube_visitante_id %}">
-                    {{ partida.clube_visitante.nome }}
-                </a>
-                — Rodada {{ partida.rodada }}
-
-                — <a href="{% url 'futebol:detalhe_partida' partida.id %}">
-                    Ver detalhes
-                </a>
-            </p>
-        {% empty %}
-            <p>Nenhum próximo jogo cadastrado.</p>
-        {% endfor %}
-
-        {% if total_adiadas %}
-            <p>Partidas adiadas: {{ total_adiadas }}</p>
-        {% endif %}
-    {% else %}
-        <p>Temporada do Brasileirão 2026 não encontrada.</p>
-    {% endif %}
+    <div class="home-heading"><div><p class="eyebrow">VISÃO GERAL</p><h2>Brasileirão {{ temporada.competicao.nome }} · {{ temporada.ano }}</h2></div><span class="data-label">Dados da última coleta</span></div>
+    <dl class="home-stats" aria-label="Resumo da temporada">
+        <div><dt>Clubes</dt><dd>{{ total_clubes }}</dd><a href="{% url 'futebol:classificacao' %}">Explorar classificação <span aria-hidden="true">→</span></a></div>
+        <div><dt>Jogadores com atuação</dt><dd>{{ total_jogadores }}</dd><a href="{% url 'futebol:jogadores' %}">Explorar jogadores <span aria-hidden="true">→</span></a></div>
+        <div><dt>Partidas cadastradas</dt><dd>{{ total_partidas }}</dd><a href="{% url 'futebol:partidas' %}">Explorar partidas <span aria-hidden="true">→</span></a></div>
+        <div><dt>Partidas encerradas</dt><dd>{{ total_finalizadas }}</dd><a href="{% url 'futebol:partidas' %}?status=Finished">Ver resultados <span aria-hidden="true">→</span></a></div>
+    </dl>
+    <div class="home-matches">
+        <section class="match-panel" aria-labelledby="resultados-title">
+            <div class="panel-heading"><h2 id="resultados-title">Últimos resultados</h2><a href="{% url 'futebol:partidas' %}?status=Finished">Ver todos <span aria-hidden="true">→</span></a></div>
+            {% for partida in ultimos_resultados %}
+                {% include "core/partials/home_partida.html" with encerrada=True %}
+            {% empty %}<p class="home-empty">Nenhuma partida encerrada nesta temporada.</p>{% endfor %}
+        </section>
+        <section class="match-panel" aria-labelledby="proximos-title">
+            <div class="panel-heading"><h2 id="proximos-title">Próximos jogos</h2><a href="{% url 'futebol:partidas' %}?status=Not%20started">Ver todos <span aria-hidden="true">→</span></a></div>
+            {% for partida in proximos_jogos %}
+                {% include "core/partials/home_partida.html" with encerrada=False %}
+            {% empty %}<p class="home-empty">Nenhum próximo jogo cadastrado.</p>{% endfor %}
+        </section>
+    </div>
+    {% if total_adiadas %}<p class="home-note">Partidas adiadas: <strong>{{ total_adiadas }}</strong>. Consulte a <a href="{% url 'futebol:partidas' %}?status=Postponed">lista de partidas</a>.</p>{% endif %}
+    {% else %}<p class="home-empty">Temporada do Brasileirão 2026 não encontrada.</p>{% endif %}
+    <aside class="home-about"><div><p class="eyebrow">SOBRE OS DADOS</p><h2>Contexto para cada análise.</h2><p>As informações refletem a última coleta e podem estar incompletas. Conheça a origem dos dados e como interpretar as estatísticas.</p></div><a href="{% url 'core:sobre' %}">Conheça o projeto <span aria-hidden="true">→</span></a></aside>
+</div>
 {% endblock %}
