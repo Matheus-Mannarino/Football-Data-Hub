@@ -1,77 +1,34 @@
 {% extends "core/base.html" %}
-
-{% block title %}{{ partida.clube_mandante.nome }} x
-        {{ partida.clube_visitante.nome }} | Football Data Hub{% endblock %}
-
+{% load static %}
+{% block title %}{{ partida.clube_mandante.nome }} x {{ partida.clube_visitante.nome }} | Football Data Hub{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'futebol/css/detalhe_partida.css' %}">{% endblock %}
+{% block extra_js %}<script src="{% static 'futebol/js/detalhe_partida.js' %}" defer></script>{% endblock %}
 {% block content %}
-<h1>Detalhe da partida</h1>
-
-    <p>
-        Brasileirão {{ partida.temporada.competicao.nome }}
-        — {{ partida.temporada.ano }}
-        — Rodada {{ partida.rodada }}
-    </p>
-
-    <p>{{ partida.data_hora|date:"d/m/Y H:i" }}</p>
-
-    <h2>
-        <a href="{% url 'futebol:detalhe_clube' partida.clube_mandante_id %}">
-            {{ partida.clube_mandante.nome }}
-        </a>
-
-        {% if partida.status_partida == "Finished" %}
-            {{ partida.gols_mandante|default_if_none:"–" }}
-            x
-            {{ partida.gols_visitante|default_if_none:"–" }}
-        {% else %}
-            x
-        {% endif %}
-
-        <a href="{% url 'futebol:detalhe_clube' partida.clube_visitante_id %}">
-            {{ partida.clube_visitante.nome }}
-        </a>
-    </h2>
-
-    <p>
-        Status:
-        {% if partida.status_partida == "Finished" %}
-            Encerrada
-        {% elif partida.status_partida == "Not started" %}
-            Não iniciada
-        {% elif partida.status_partida == "Postponed" %}
-            Adiada
-        {% else %}
-            {{ partida.status_partida }}
-        {% endif %}
-    </p>
-
-    {% if partida.penaltis_mandante != None and partida.penaltis_visitante != None %}
-        <p>
-            Disputa de pênaltis:
-            {{ partida.penaltis_mandante }}
-            x
-            {{ partida.penaltis_visitante }}
-        </p>
-    {% endif %}
-
-    <h2>Jogadores e estatísticas</h2>
-
-    <p>
-        Dados disponíveis na última coleta.
-        Jogadores com 0 minutos podem constar entre os relacionados.
-    </p>
-
+<div class="match-detail">
+    <a class="match-back" href="{% url 'futebol:partidas' %}">← Voltar para partidas</a>
+    <header class="match-detail-heading"><p class="match-eyebrow">O CONFRONTO EM DETALHES</p><h1>Detalhe da partida</h1></header>
+    <section class="match-scoreboard" aria-label="Resumo da partida">
+        <div class="match-competition">Brasileirão {{ partida.temporada.competicao.nome }} · {{ partida.temporada.ano }} <span>Rodada {{ partida.rodada|default_if_none:"–" }}</span></div>
+        <p class="match-kickoff">{{ partida.data_hora|date:"d/m/Y · H:i"|default:"Data a definir" }}</p>
+        <div class="match-scoreboard-teams">
+            <a class="scoreboard-team" href="{% url 'futebol:detalhe_clube' partida.clube_mandante_id %}"><span class="scoreboard-crest-slot">{% if partida.clube_mandante.logo %}<img class="scoreboard-crest" src="{{ partida.clube_mandante.logo }}" alt="" width="80" height="80">{% else %}<span class="scoreboard-fallback" aria-hidden="true">{{ partida.clube_mandante.nome|first }}</span>{% endif %}</span><span>{{ partida.clube_mandante.nome }}</span><small>Mandante</small></a>
+            <div class="scoreboard-middle"><div class="scoreboard-score">{% if partida.status_partida == "Finished" %}<span>{{ partida.gols_mandante|default_if_none:"–" }}</span><span class="scoreboard-divider">:</span><span>{{ partida.gols_visitante|default_if_none:"–" }}</span>{% else %}<span class="scoreboard-versus">vs</span>{% endif %}</div><span class="scoreboard-status{% if partida.status_partida == 'Finished' %} finished{% elif partida.status_partida == 'Postponed' %} postponed{% endif %}">{% if partida.status_partida == "Finished" %}Encerrada{% elif partida.status_partida == "Not started" %}Não iniciada{% elif partida.status_partida == "Postponed" %}Adiada{% else %}{{ partida.status_partida }}{% endif %}</span></div>
+            <a class="scoreboard-team" href="{% url 'futebol:detalhe_clube' partida.clube_visitante_id %}"><span class="scoreboard-crest-slot">{% if partida.clube_visitante.logo %}<img class="scoreboard-crest" src="{{ partida.clube_visitante.logo }}" alt="" width="80" height="80">{% else %}<span class="scoreboard-fallback" aria-hidden="true">{{ partida.clube_visitante.nome|first }}</span>{% endif %}</span><span>{{ partida.clube_visitante.nome }}</span><small>Visitante</small></a>
+        </div>
+        {% if partida.penaltis_mandante != None and partida.penaltis_visitante != None %}<p class="match-penalties">Disputa de pênaltis: <strong>{{ partida.penaltis_mandante }} x {{ partida.penaltis_visitante }}</strong></p>{% endif %}
+    </section>
+    <div class="match-stats-heading"><h2>Jogadores e estatísticas</h2><p>Dados disponíveis na última coleta. Jogadores com 0 minutos podem constar entre os relacionados.</p><p class="match-table-hint">Deslize as tabelas para consultar todos os indicadores. C: capitão.</p></div>
     {% for equipe in equipes %}
-        <section>
-            <h3>{{ equipe.clube.nome }}</h3>
+        <section class="match-team-panel">
+            <h3><a href="{% url 'futebol:detalhe_clube' equipe.clube.id %}">{{ equipe.clube.nome }}</a></h3>
 
             {% if equipe.atuacoes %}
-                <div class="table-scroll" role="region" aria-label="Tabela de dados" tabindex="0">
+                <div class="table-scroll" role="region" aria-label="Atuações de {{ equipe.clube.nome }}" tabindex="0">
 <table>
                     <thead>
                         <tr>
                             <th scope="col">Camisa</th>
-                            <th scope="col">Jogador</th>
+                            <th scope="col" class="player-column">Jogador</th>
                             <th scope="col">Posição</th>
                             <th scope="col">Titular</th>
                             <th scope="col">Minutos</th>
@@ -87,9 +44,9 @@
                     <tbody>
                         {% for atuacao in equipe.atuacoes %}
                             <tr>
-                                <td>{{ atuacao.numero_camisa }}</td>
+                                <td>{{ atuacao.numero_camisa|default_if_none:"–" }}</td>
 
-                                <td>
+                                <td class="player-column">
                                     {% if atuacao.minutos_jogados > 0 and partida.status_partida == "Finished" %}
                                         <a href="{% url 'futebol:detalhe_jogador' atuacao.jogador_id %}">
                                             {{ atuacao.jogador.nome }}
@@ -99,11 +56,11 @@
                                     {% endif %}
 
                                     {% if atuacao.capitao %}
-                                        (C)
+                                        <span class="captain-label" title="Capitão">C</span>
                                     {% endif %}
                                 </td>
 
-                                <td>{{ atuacao.posicao_partida }}</td>
+                                <td>{{ atuacao.posicao_partida|default:"–" }}</td>
 
                                 <td>
                                     {{ atuacao.titular|yesno:"Sim,Não" }}
@@ -113,7 +70,7 @@
 
                                 <td>
                                     {% if atuacao.nota != None %}
-                                        {{ atuacao.nota|floatformat:2 }}
+                                        <span class="match-rating">{{ atuacao.nota|floatformat:2 }}</span>
                                     {% else %}
                                         -
                                     {% endif %}
@@ -150,9 +107,7 @@
         </section>
     {% endfor %}
 
-    <p>
-        <a href="{% url 'futebol:partidas' %}">
-            Voltar para partidas
-        </a>
-    </p>
+    <aside class="match-data-note">A ausência de estatísticas não representa desempenho igual a zero. Os dados refletem a última coleta, sem atualização em tempo real. <a href="{% url 'core:sobre' %}">Saiba mais sobre os dados →</a></aside>
+    <a class="match-back match-back-bottom" href="{% url 'futebol:partidas' %}">← Voltar para partidas</a>
+</div>
 {% endblock %}
