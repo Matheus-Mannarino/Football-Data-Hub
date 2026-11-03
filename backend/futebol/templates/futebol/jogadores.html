@@ -1,14 +1,17 @@
 {% extends "core/base.html" %}
+{% load static %}
 
 {% block title %}Jogadores | Football Data Hub{% endblock %}
 
+{% block extra_css %}<link rel="stylesheet" href="{% static 'futebol/css/jogadores.css' %}">{% endblock %}
 {% block content %}
-<h1>Jogadores</h1>
+<div class="players-page">
+<header class="players-heading"><p class="players-eyebrow">OS PROTAGONISTAS DO CAMPEONATO</p><h1>Jogadores</h1><p>Encontre atletas e explore suas atuações na temporada.</p></header>
 
-    <h2>Brasileirão {{ temporada.competicao.nome }} — {{ temporada.ano }}</h2>
+    {% if temporada %}<div class="players-season"><h2>Brasileirão {{ temporada.competicao.nome }} · {{ temporada.ano }}</h2><a href="{% url 'futebol:comparacao' %}">Comparar jogadores →</a></div>{% endif %}
 
-    <form method="get" action="{% url 'futebol:jogadores' %}">
-        <label for="busca">Nome:</label>
+    <form class="players-filters" aria-label="Filtros de jogadores" method="get" action="{% url 'futebol:jogadores' %}">
+        <div class="players-field players-search"><label for="busca">Nome</label>
 
         <input
             type="search"
@@ -18,7 +21,7 @@
             placeholder="Buscar jogador"
         >
 
-        <label for="clube">Atuou pelo clube:</label>
+        </div><div class="players-field"><label for="clube">Atuou pelo clube</label>
 
         <select id="clube" name="clube">
             <option value="">Todos</option>
@@ -35,7 +38,7 @@
             {% endfor %}
         </select>
 
-        <label for="posicao">Posição principal:</label>
+        </div><div class="players-field"><label for="posicao">Posição principal</label>
 
         <select id="posicao" name="posicao">
             <option value="">Todas</option>
@@ -52,22 +55,22 @@
             {% endfor %}
         </select>
 
-        <button type="submit">Filtrar</button>
+        </div><div class="players-filter-actions"><button type="submit">Filtrar jogadores</button>
 
         <a href="{% url 'futebol:jogadores' %}">
             Limpar filtros
         </a>
-    </form>
+    </div></form>
 
-    <p>Jogadores encontrados: {{ total_jogadores }}</p>
+    <p class="players-count"><strong>{{ total_jogadores }}</strong> jogador{{ total_jogadores|pluralize:"es" }} encontrado{{ total_jogadores|pluralize:"s" }}</p>
 
-    <p>
+    <aside class="players-note">
         Atletas com minutos jogados nas partidas encerradas
         disponíveis na base. Os clubes indicam por quais equipes
         cada jogador atuou na temporada.
-    </p>
+    </aside>
 
-    <div class="table-scroll" role="region" aria-label="Tabela de dados" tabindex="0">
+    <div class="table-scroll" role="region" aria-label="Lista de jogadores" tabindex="0">
 <table>
         <thead>
             <tr>
@@ -80,17 +83,15 @@
         <tbody>
             {% for jogador in pagina %}
                 <tr>
-                    <td>
+                    <td class="player-name" data-label="Jogador">
                         <a href="{% url 'futebol:detalhe_jogador' jogador.id %}">
                             {{ jogador.nome }}
                         </a>
                     </td>
 
-                    <td>
-                        {{ jogador.posicao_principal|default:"Não informada" }}
-                    </td>
+                    <td data-label="Posição principal"><span class="player-position">{{ jogador.posicao_principal|default:"Não informada" }}</span></td>
 
-                    <td>
+                    <td data-label="Clubes na temporada" class="player-clubs">
                         {% for clube in jogador.clubes_temporada %}
                             <a href="{% url 'futebol:detalhe_clube' clube.id %}">
                                 {{ clube.nome }}
@@ -112,7 +113,7 @@
 </div>
 
     {% if pagina.has_other_pages %}
-        <nav aria-label="Paginação de jogadores">
+        <nav class="players-pagination" aria-label="Paginação de jogadores">
             {% if pagina.has_previous %}
                 <a href="?{% if filtros_url %}{{ filtros_url }}&amp;{% endif %}page=1">
                     Primeira
@@ -138,4 +139,6 @@
             {% endif %}
         </nav>
     {% endif %}
+</div>
 {% endblock %}
+
