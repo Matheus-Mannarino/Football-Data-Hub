@@ -1,67 +1,23 @@
 {% extends "core/base.html" %}
-
+{% load static %}
 {% block title %}{{ jogador.nome }} | Football Data Hub{% endblock %}
-
+{% block extra_css %}<link rel="stylesheet" href="{% static 'futebol/css/detalhe_jogador.css' %}">{% endblock %}
 {% block content %}
-<h1>{{ jogador.nome }}</h1>
-
-    {% if jogador.logo %}
-        <img
-            src="{{ jogador.logo }}"
-            alt="Foto de {{ jogador.nome }}"
-            width="100"
-        >
-    {% endif %}
-
-    <p>
-        Posição principal:
-        {{ jogador.posicao_principal|default:"Não informada" }}
-    </p>
-
-    <p>
-        Brasileirão {{ temporada.competicao.nome }} — {{ temporada.ano }}
-    </p>
-
-    <p>
-        Clubes com atuação registrada:
-        {% for clube in clubes %}
-            <a href="{% url 'futebol:detalhe_clube' clube.id %}">
-                {{ clube.nome }}
-            </a>{% if not forloop.last %}, {% endif %}
-        {% endfor %}
-    </p>
-
-    <h2>Resumo das atuações disponíveis</h2>
-
-    <p>
-        Os números consideram apenas as atuações coletadas
-        com minutos jogados e podem estar incompletos.
-    </p>
-
-    <ul>
-        <li>Jogos: {{ resumo.jogos }}</li>
-        <li>Minutos: {{ resumo.minutos }}</li>
-        <li>Gols: {{ resumo.gols }}</li>
-        <li>Assistências: {{ resumo.assistencias }}</li>
-
-        <li>
-            Nota média:
-            {% if resumo.nota_media != None %}
-                {{ resumo.nota_media|floatformat:2 }}
-                ({{ resumo.notas_disponiveis }} notas disponíveis)
-            {% else %}
-                Não disponível
-            {% endif %}
-        </li>
-
-        <li>Cartões amarelos: {{ resumo.amarelos }}</li>
-        <li>Segundos amarelos: {{ resumo.segundos_amarelos }}</li>
-        <li>Cartões vermelhos: {{ resumo.vermelhos }}</li>
-    </ul>
-
-    <h2>Histórico de atuações</h2>
-
-    <div class="table-scroll" role="region" aria-label="Tabela de dados" tabindex="0">
+<div class="athlete-page">
+    <a class="athlete-back" href="{% url 'futebol:jogadores' %}">← Voltar para jogadores</a>
+    <header class="athlete-hero"><div><p class="athlete-eyebrow">PERFIL DO JOGADOR</p><h1>{{ jogador.nome }}</h1><p class="athlete-season">Brasileirão {{ temporada.competicao.nome }} · {{ temporada.ano }}</p></div><div class="athlete-position"><span>POSIÇÃO PRINCIPAL</span><strong>{{ jogador.posicao_principal|default:"Não informada" }}</strong></div></header>
+    <section class="athlete-clubs" aria-labelledby="athlete-clubs-title"><h2 id="athlete-clubs-title">Clubes com atuação registrada</h2><div>{% for clube in clubes %}<a href="{% url 'futebol:detalhe_clube' clube.id %}">{{ clube.nome }} <span aria-hidden="true">↗</span></a>{% empty %}<p>Nenhum clube com atuação registrada.</p>{% endfor %}</div><p>Os clubes representam atuações na temporada, não necessariamente o vínculo atual do atleta.</p></section>
+    <section class="athlete-summary" aria-labelledby="athlete-summary-title"><h2 id="athlete-summary-title">Resumo das atuações disponíveis</h2><p class="athlete-note">Os números consideram apenas as atuações coletadas com minutos jogados e podem estar incompletos.</p>
+    <dl class="athlete-stats">
+<div><dt>Jogos</dt><dd>{{ resumo.jogos }}</dd></div>
+<div><dt>Minutos</dt><dd>{{ resumo.minutos }}</dd></div>
+<div><dt>Gols</dt><dd>{{ resumo.gols }}</dd></div>
+<div><dt>Assistências</dt><dd>{{ resumo.assistencias }}</dd></div>
+</dl>
+    <div class="athlete-secondary"><div class="athlete-average"><h3>Nota média</h3>{% if resumo.nota_media != None %}<strong>{{ resumo.nota_media|floatformat:2 }}</strong><p>{{ resumo.notas_disponiveis }} notas disponíveis</p>{% else %}<strong class="athlete-unavailable">Não disponível</strong>{% endif %}<p>Média das notas disponíveis, sem ponderação por minutos.</p></div><div class="athlete-discipline"><h3>Disciplina</h3><dl><div><dt><span class="athlete-card yellow" aria-hidden="true"></span>Cartões amarelos</dt><dd>{{ resumo.amarelos }}</dd></div><div><dt><span class="athlete-card yellow" aria-hidden="true"></span>Segundos amarelos</dt><dd>{{ resumo.segundos_amarelos }}</dd></div><div><dt><span class="athlete-card red" aria-hidden="true"></span>Cartões vermelhos</dt><dd>{{ resumo.vermelhos }}</dd></div></dl></div></div>
+    </section>
+    <section class="athlete-history" aria-labelledby="athlete-history-title"><h2 id="athlete-history-title">Histórico de atuações</h2><p class="athlete-table-hint">Deslize a tabela para consultar todos os indicadores. Selecione um confronto para ver os detalhes.</p>
+    <div class="table-scroll" role="region" aria-label="Histórico de atuações de {{ jogador.nome }}" tabindex="0">
 <table>
         <thead>
             <tr>
@@ -109,7 +65,7 @@
 
                     <td>
                         {% if atuacao.nota != None %}
-                            {{ atuacao.nota|floatformat:2 }}
+                            <span class="athlete-rating">{{ atuacao.nota|floatformat:2 }}</span>
                         {% else %}
                             –
                         {% endif %}
@@ -130,7 +86,7 @@
 </div>
 
     {% if pagina.has_other_pages %}
-        <nav aria-label="Paginação das atuações">
+        <nav class="athlete-pagination" aria-label="Paginação das atuações">
             {% if pagina.has_previous %}
                 <a href="?page=1">Primeira</a>
                 <a href="?page={{ pagina.previous_page_number }}">
@@ -154,9 +110,6 @@
         </nav>
     {% endif %}
 
-    <p>
-        <a href="{% url 'futebol:jogadores' %}">
-            Voltar para jogadores
-        </a>
-    </p>
+</section><aside class="athlete-data-note">Estatísticas ausentes não representam desempenho igual a zero. <a href="{% url 'core:sobre' %}">Conheça a origem e as limitações dos dados →</a></aside><a class="athlete-back athlete-back-bottom" href="{% url 'futebol:jogadores' %}">← Voltar para jogadores</a>
+</div>
 {% endblock %}
