@@ -1,27 +1,9 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre | Football Data Hub</title>
-</head>
-<body>
-    <nav>
-        <a href="{% url 'core:home' %}">Home</a>
-        |
-        <a href="{% url 'futebol:classificacao' %}">Classificação</a>
-        |
-        <a href="{% url 'futebol:partidas' %}">Partidas</a>
-        |
-        <a href="{% url 'futebol:jogadores' %}">Jogadores</a>
-        |
-        <a href="{% url 'futebol:comparacao' %}">Comparação</a>
-        |
-        <a href="{% url 'core:sobre' %}" aria-current="page">Sobre</a>
-    </nav>
+{% extends "core/base.html" %}
 
-    <main>
-        <h1>Sobre o Football Data Hub</h1>
+{% block title %}Sobre | Football Data Hub{% endblock %}
+
+{% block content %}
+<h1>Sobre o Football Data Hub</h1>
 
         <section>
             <h2>O projeto</h2>
@@ -159,6 +141,4 @@
                 <li>Antonio Vieira</li>
             </ul>
         </section>
-    </main>
-</body>
-</html>
+{% endblock %}

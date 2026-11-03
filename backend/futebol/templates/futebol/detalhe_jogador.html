@@ -1,26 +1,9 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ jogador.nome }} | Football Data Hub</title>
-</head>
-<body>
-    <nav>
-        <a href="{% url 'core:home' %}">Home</a>
-        |
-        <a href="{% url 'futebol:classificacao' %}">Classificação</a>
-        |
-        <a href="{% url 'futebol:partidas' %}">Partidas</a>
-        |
-        <a href="{% url 'futebol:jogadores' %}">Jogadores</a>
-        |
-        <a href="{% url 'futebol:comparacao' %}">Comparação</a>
-        |
-        <a href="{% url 'core:sobre' %}">Sobre</a>
-    </nav>
+{% extends "core/base.html" %}
 
-    <h1>{{ jogador.nome }}</h1>
+{% block title %}{{ jogador.nome }} | Football Data Hub{% endblock %}
+
+{% block content %}
+<h1>{{ jogador.nome }}</h1>
 
     {% if jogador.logo %}
         <img
@@ -78,7 +61,8 @@
 
     <h2>Histórico de atuações</h2>
 
-    <table>
+    <div class="table-scroll" role="region" aria-label="Tabela de dados" tabindex="0">
+<table>
         <thead>
             <tr>
                 <th scope="col">Data</th>
@@ -143,6 +127,7 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
 
     {% if pagina.has_other_pages %}
         <nav aria-label="Paginação das atuações">
@@ -174,5 +159,4 @@
             Voltar para jogadores
         </a>
     </p>
-</body>
-</html>
+{% endblock %}

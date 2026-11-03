@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0B1F3A">
+    <title>{% block title %}Football Data Hub{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+    {% block extra_css %}{% endblock %}
+    <script src="{% static 'core/js/base.js' %}" defer></script>
+    {% block extra_js %}{% endblock %}
+</head>
+<body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="{% url 'core:home' %}" aria-label="Football Data Hub — início">
+                <img src="{% static 'core/img/logo.png' %}" alt="Football Data Hub" width="210" height="76">
+            </a>
+            <button class="menu-toggle" type="button" aria-controls="navegacao-principal" aria-expanded="false" hidden>
+                <span class="menu-icon" aria-hidden="true">☰</span> Menu
+            </button>
+            {% with rota=request.resolver_match.view_name %}
+            <nav class="site-nav" id="navegacao-principal" aria-label="Navegação principal">
+                <a href="{% url 'core:home' %}"{% if rota == 'core:home' %} aria-current="page"{% endif %}>Home</a>
+                <a href="{% url 'futebol:classificacao' %}"{% if rota == 'futebol:classificacao' %} aria-current="page"{% elif rota == 'futebol:detalhe_clube' %} aria-current="true"{% endif %}>Classificação</a>
+                <a href="{% url 'futebol:partidas' %}"{% if rota == 'futebol:partidas' %} aria-current="page"{% elif rota == 'futebol:detalhe_partida' %} aria-current="true"{% endif %}>Partidas</a>
+                <a href="{% url 'futebol:jogadores' %}"{% if rota == 'futebol:jogadores' %} aria-current="page"{% elif rota == 'futebol:detalhe_jogador' %} aria-current="true"{% endif %}>Jogadores</a>
+                <a href="{% url 'futebol:comparacao' %}"{% if rota == 'futebol:comparacao' %} aria-current="page"{% endif %}>Comparação</a>
+                <a href="{% url 'core:sobre' %}"{% if rota == 'core:sobre' %} aria-current="page"{% endif %}>Sobre</a>
+            </nav>
+            {% endwith %}
+        </div>
+    </header>
+    <div class="competition-strip"><div class="container"><span class="competition-label">BRASILEIRÃO SÉRIE A</span><span>Temporada 2026</span></div></div>
+    <main class="container page-content" id="conteudo" tabindex="-1">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div><strong>FOOTBALL <span>DATA HUB</span></strong><p>Futebol em campo. Dados em perspectiva.</p></div>
+            <div><p>Projeto acadêmico · {% now "Y" %}</p><p>Dados: Highlightly · Sem atualização em tempo real</p><a href="{% url 'core:sobre' %}">Conheça o projeto</a></div>
+        </div>
+    </footer>
+</body>
+</html>

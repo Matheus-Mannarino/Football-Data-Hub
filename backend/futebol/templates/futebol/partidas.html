@@ -1,26 +1,9 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partidas | Football Data Hub</title>
-</head>
-<body>
-    <nav>
-        <a href="{% url 'core:home' %}">Home</a>
-        |
-        <a href="{% url 'futebol:classificacao' %}">Classificação</a>
-        |
-        <a href="{% url 'futebol:partidas' %}">Partidas</a>
-        |
-        <a href="{% url 'futebol:jogadores' %}">Jogadores</a>
-        |
-        <a href="{% url 'futebol:comparacao' %}">Comparação</a>
-        |
-        <a href="{% url 'core:sobre' %}">Sobre</a>
-    </nav>
+{% extends "core/base.html" %}
 
-    <h1>Partidas</h1>
+{% block title %}Partidas | Football Data Hub{% endblock %}
+
+{% block content %}
+<h1>Partidas</h1>
 
     {% if temporada %}
         <h2>Brasileirão {{ temporada.competicao.nome }} — {{ temporada.ano }}</h2>
@@ -80,7 +63,8 @@
             <section>
                 <h2>Rodada {{ grupo.grouper }}</h2>
 
-                <table>
+                <div class="table-scroll" role="region" aria-label="Tabela de dados" tabindex="0">
+<table>
                     <thead>
                         <tr>
                             <th scope="col">Data e hora</th>
@@ -142,6 +126,7 @@
                         {% endfor %}
                     </tbody>
                 </table>
+</div>
             </section>
         {% empty %}
             <p>Nenhuma partida encontrada para os filtros selecionados.</p>
@@ -149,5 +134,4 @@
     {% else %}
         <p>Temporada do Brasileirão 2026 não encontrada.</p>
     {% endif %}
-</body>
-</html>
+{% endblock %}

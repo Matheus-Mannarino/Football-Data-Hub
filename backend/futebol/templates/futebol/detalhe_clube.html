@@ -1,26 +1,9 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ clube.nome }} | Football Data Hub</title>
-</head>
-<body>
-    <nav>
-        <a href="{% url 'core:home' %}">Home</a>
-        |
-        <a href="{% url 'futebol:classificacao' %}">Classificação</a>
-        |
-        <a href="{% url 'futebol:partidas' %}">Partidas</a>
-        |
-        <a href="{% url 'futebol:jogadores' %}">Jogadores</a>
-        |
-        <a href="{% url 'futebol:comparacao' %}">Comparação</a>
-        |
-        <a href="{% url 'core:sobre' %}">Sobre</a>
-    </nav>
+{% extends "core/base.html" %}
 
-    <h1>{{ clube.nome }}</h1>
+{% block title %}{{ clube.nome }} | Football Data Hub{% endblock %}
+
+{% block content %}
+<h1>{{ clube.nome }}</h1>
 
     {% if clube.logo %}
         <img
@@ -115,7 +98,8 @@
         e pode incluir atletas que já foram transferidos.
     </p>
 
-    <table>
+    <div class="table-scroll" role="region" aria-label="Tabela de dados" tabindex="0">
+<table>
         <thead>
             <tr>
                 <th scope="col">Jogador</th>
@@ -157,11 +141,11 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
 
     <p>
         <a href="{% url 'futebol:classificacao' %}">
             Voltar para classificação
         </a>
     </p>
-</body>
-</html>
+{% endblock %}
