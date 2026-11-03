@@ -12,11 +12,13 @@
 {% endblock %}
 
 {% block content %}
-<h1>Comparação de jogadores</h1>
+<div class="comparison-page">
+<header class="comparison-heading"><p class="comparison-eyebrow">DOIS JOGADORES. NOVAS PERSPECTIVAS.</p><h1>Comparação de jogadores</h1><p>Explore o desempenho dos atletas, indicador por indicador.</p></header>
 
-    <h2>Brasileirão {{ temporada.competicao.nome }} — {{ temporada.ano }}</h2>
+    {% if temporada %}<h2 class="comparison-season">Brasileirão {{ temporada.competicao.nome }} · {{ temporada.ano }}</h2>{% endif %}
 
-    <form method="get" action="{% url 'futebol:comparacao' %}">
+    <form class="comparison-form" method="get" action="{% url 'futebol:comparacao' %}">
+        <div class="comparison-selectors">
         {% for seletor in seletores %}
             <fieldset
                 class="seletor-jogador"
@@ -101,26 +103,28 @@
                 <p class="quantidade-opcoes" aria-live="polite"></p>
             </fieldset>
         {% endfor %}
+        </div>
 
-        <p>
+        <p class="comparison-note">
             Os filtros de clube consideram atuações na temporada,
             não necessariamente o elenco atual.
         </p>
 
-        <button type="submit">Comparar</button>
+        <div class="comparison-actions"><button type="submit">Comparar jogadores</button>
 
         <a href="{% url 'futebol:comparacao' %}">
             Limpar comparação
         </a>
-    </form>
+    </div></form>
 
     {% if erro %}
-        <p role="alert">{{ erro }}</p>
+        <p class="comparison-error" role="alert">{{ erro }}</p>
     {% endif %}
 
     {% if perfis %}
         <h2>Jogadores selecionados</h2>
 
+        <div class="comparison-profiles">
         {% for perfil in perfis %}
             <p>
                 <a href="{% url 'futebol:detalhe_jogador' perfil.jogador.id %}">
@@ -131,8 +135,9 @@
                 {{ perfil.jogador.posicao_principal|default:"Posição não informada" }}
             </p>
         {% endfor %}
+        </div>
 
-        <p>
+        <p class="comparison-note">
             Comparação baseada apenas nas atuações coletadas
             com minutos jogados em partidas encerradas.
             Os totais podem estar incompletos.
@@ -146,8 +151,9 @@
         </p>
 
         <div id="grafico-comparacao"></div>
+        <h2>Indicadores em detalhe</h2>
 
-        <div class="table-scroll" role="region" aria-label="Tabela de dados" tabindex="0">
+        <div class="table-scroll" role="region" aria-label="Indicadores dos jogadores selecionados" tabindex="0">
 <table>
             <thead>
                 <tr>
@@ -199,10 +205,12 @@
         </p>
     {% else %}
         {% if not erro %}
-            <p>Selecione dois jogadores para visualizar a comparação.</p>
+            <p class="comparison-empty">Selecione dois jogadores para visualizar a comparação.</p>
         {% endif %}
     {% endif %}
 
     {{ opcoes_jogadores|json_script:"dados-jogadores" }}
     {{ dados_grafico|json_script:"dados-grafico" }}
+</div>
 {% endblock %}
+
