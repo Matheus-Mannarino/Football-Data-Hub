@@ -1,103 +1,31 @@
 {% extends "core/base.html" %}
-
+{% load static %}
 {% block title %}{{ clube.nome }} | Football Data Hub{% endblock %}
-
+{% block extra_css %}<link rel="stylesheet" href="{% static 'futebol/css/detalhe_clube.css' %}">{% endblock %}
+{% block extra_js %}<script src="{% static 'futebol/js/detalhe_clube.js' %}" defer></script>{% endblock %}
 {% block content %}
-<h1>{{ clube.nome }}</h1>
-
-    {% if clube.logo %}
-        <img
-            src="{{ clube.logo }}"
-            alt="Escudo de {{ clube.nome }}"
-            width="80"
-        >
-    {% endif %}
-
-    <p>
-        Brasileirão {{ temporada.competicao.nome }} — {{ temporada.ano }}
-    </p>
-
-    <h2>Campanha na competição</h2>
-
-    {% if classificacao_clube %}
-        <ul>
-            <li>Posição: {{ classificacao_clube.posicao }}º</li>
-            <li>Pontos: {{ classificacao_clube.pontos }}</li>
-            <li>Jogos: {{ classificacao_clube.jogos }}</li>
-            <li>Vitórias: {{ classificacao_clube.vitorias }}</li>
-            <li>Empates: {{ classificacao_clube.empates }}</li>
-            <li>Derrotas: {{ classificacao_clube.derrotas }}</li>
-            <li>Gols pró: {{ classificacao_clube.gols_pro }}</li>
-            <li>Gols contra: {{ classificacao_clube.gols_contra }}</li>
-            <li>Saldo: {{ classificacao_clube.saldo_gols }}</li>
-            <li>
-                Aproveitamento:
-                {{ classificacao_clube.aproveitamento|floatformat:1 }}%
-            </li>
-        </ul>
-
-        <p>
-            Fonte: classificação da Highlightly.
-            Atualizada em
-            {{ classificacao_clube.atualizado_em|date:"d/m/Y H:i" }}.
-        </p>
-    {% else %}
-        <p>Classificação não disponível para este clube.</p>
-    {% endif %}
-
-    <h2>Últimos resultados cadastrados</h2>
-
-    {% for partida in ultimos_resultados %}
-        <p>
-            {{ partida.data_hora|date:"d/m/Y H:i" }} —
-            {{ partida.clube_mandante.nome }}
-            {{ partida.gols_mandante|default_if_none:"–" }}
-            x
-            {{ partida.gols_visitante|default_if_none:"–" }}
-            {{ partida.clube_visitante.nome }}
-            — Rodada {{ partida.rodada }}
-
-            — <a href="{% url 'futebol:detalhe_partida' partida.id %}">
-                Ver detalhes
-            </a>
-        </p>
-    {% empty %}
-        <p>Nenhum resultado cadastrado.</p>
-    {% endfor %}
-
-    <h2>Próximos jogos cadastrados</h2>
-
-    {% for partida in proximos_jogos %}
-        <p>
-            {{ partida.data_hora|date:"d/m/Y H:i" }} —
-            {{ partida.clube_mandante.nome }}
-            x
-            {{ partida.clube_visitante.nome }}
-            — Rodada {{ partida.rodada }}
-
-            — <a href="{% url 'futebol:detalhe_partida' partida.id %}">
-                Ver detalhes
-            </a>
-        </p>
-    {% empty %}
-        <p>Nenhum próximo jogo cadastrado.</p>
-    {% endfor %}
-
-    <h2>Jogadores com atuação pelo clube</h2>
-
-    <p>
-        Estatísticas calculadas com as atuações disponíveis
-        em {{ partidas_com_atuacoes }} das
-        {{ total_finalizadas }} partidas encerradas cadastradas
-        para o clube.
-        Os números podem estar incompletos.
-    </p>
-
-    <p>
-        Esta lista reúne jogadores que atuaram pelo clube na temporada
-        e pode incluir atletas que já foram transferidos.
-    </p>
-
+<div class="club-detail">
+<a class="club-back" href="{% url 'futebol:classificacao' %}">← Voltar para classificação</a>
+<header class="club-hero"><div class="club-crest-slot">{% if clube.logo %}<img class="club-detail-crest" src="{{ clube.logo }}" alt="" width="90" height="90">{% else %}<span aria-hidden="true">{{ clube.nome|first }}</span>{% endif %}</div><div><p class="club-eyebrow">PERFIL DO CLUBE</p><h1>{{ clube.nome }}</h1><p>Brasileirão {{ temporada.competicao.nome }} · {{ temporada.ano }}</p></div></header>
+<section class="club-campaign" aria-labelledby="campaign-title"><h2 id="campaign-title">Campanha na competição</h2>
+{% if classificacao_clube %}
+<dl class="club-stats">
+<div><dt>Posição</dt><dd>{{ classificacao_clube.posicao }}º</dd></div>
+<div><dt>Pontos</dt><dd>{{ classificacao_clube.pontos }}</dd></div>
+<div><dt>Jogos</dt><dd>{{ classificacao_clube.jogos }}</dd></div>
+<div><dt>Aproveitamento</dt><dd>{{ classificacao_clube.aproveitamento|floatformat:1 }}%</dd></div>
+<div><dt>Vitórias</dt><dd>{{ classificacao_clube.vitorias }}</dd></div>
+<div><dt>Empates</dt><dd>{{ classificacao_clube.empates }}</dd></div>
+<div><dt>Derrotas</dt><dd>{{ classificacao_clube.derrotas }}</dd></div>
+<div><dt>Gols pró</dt><dd>{{ classificacao_clube.gols_pro }}</dd></div>
+<div><dt>Gols contra</dt><dd>{{ classificacao_clube.gols_contra }}</dd></div>
+<div><dt>Saldo de gols</dt><dd>{{ classificacao_clube.saldo_gols }}</dd></div>
+</dl><p class="club-source">Fonte: classificação da Highlightly. {% if classificacao_clube.atualizado_em %}Atualizada em {{ classificacao_clube.atualizado_em|date:"d/m/Y H:i" }}.{% else %}Data de atualização indisponível.{% endif %}</p>
+{% else %}<p class="club-empty">Classificação não disponível para este clube.</p>{% endif %}</section>
+<div class="club-games">
+<section class="club-games-panel"><h2>Últimos resultados cadastrados</h2>{% for partida in ultimos_resultados %}<article class="club-match"><div class="club-match-meta"><span>{{ partida.data_hora|date:"d/m/Y · H:i"|default:"Data a definir" }}</span><span>Rodada {{ partida.rodada|default_if_none:"–" }}</span></div><div class="club-match-teams"><a href="{% url 'futebol:detalhe_clube' partida.clube_mandante_id %}"><span class="club-match-crest">{% if partida.clube_mandante.logo %}<img class="club-detail-crest" src="{{ partida.clube_mandante.logo }}" alt="" width="32" height="32" loading="lazy">{% else %}<span aria-hidden="true">{{ partida.clube_mandante.nome|first }}</span>{% endif %}</span><span>{{ partida.clube_mandante.nome }}</span></a><strong class="club-match-score">{{ partida.gols_mandante|default_if_none:"–" }} : {{ partida.gols_visitante|default_if_none:"–" }}</strong><a href="{% url 'futebol:detalhe_clube' partida.clube_visitante_id %}"><span class="club-match-crest">{% if partida.clube_visitante.logo %}<img class="club-detail-crest" src="{{ partida.clube_visitante.logo }}" alt="" width="32" height="32" loading="lazy">{% else %}<span aria-hidden="true">{{ partida.clube_visitante.nome|first }}</span>{% endif %}</span><span>{{ partida.clube_visitante.nome }}</span></a></div><a class="club-match-link" href="{% url 'futebol:detalhe_partida' partida.id %}" aria-label="Ver detalhes: {{ partida.clube_mandante.nome }} x {{ partida.clube_visitante.nome }}">Ver detalhes <span aria-hidden="true">→</span></a></article>{% empty %}<p class="club-empty">Nenhum resultado cadastrado.</p>{% endfor %}</section><section class="club-games-panel"><h2>Próximos jogos cadastrados</h2>{% for partida in proximos_jogos %}<article class="club-match"><div class="club-match-meta"><span>{{ partida.data_hora|date:"d/m/Y · H:i"|default:"Data a definir" }}</span><span>Rodada {{ partida.rodada|default_if_none:"–" }}</span></div><div class="club-match-teams"><a href="{% url 'futebol:detalhe_clube' partida.clube_mandante_id %}"><span class="club-match-crest">{% if partida.clube_mandante.logo %}<img class="club-detail-crest" src="{{ partida.clube_mandante.logo }}" alt="" width="32" height="32" loading="lazy">{% else %}<span aria-hidden="true">{{ partida.clube_mandante.nome|first }}</span>{% endif %}</span><span>{{ partida.clube_mandante.nome }}</span></a><strong class="club-match-score">vs</strong><a href="{% url 'futebol:detalhe_clube' partida.clube_visitante_id %}"><span class="club-match-crest">{% if partida.clube_visitante.logo %}<img class="club-detail-crest" src="{{ partida.clube_visitante.logo }}" alt="" width="32" height="32" loading="lazy">{% else %}<span aria-hidden="true">{{ partida.clube_visitante.nome|first }}</span>{% endif %}</span><span>{{ partida.clube_visitante.nome }}</span></a></div><a class="club-match-link" href="{% url 'futebol:detalhe_partida' partida.id %}" aria-label="Ver detalhes: {{ partida.clube_mandante.nome }} x {{ partida.clube_visitante.nome }}">Ver detalhes <span aria-hidden="true">→</span></a></article>{% empty %}<p class="club-empty">Nenhum próximo jogo cadastrado.</p>{% endfor %}</section></div><section class="club-players" aria-labelledby="players-title"><h2 id="players-title">Jogadores com atuação pelo clube</h2>
+<aside class="club-coverage"><strong>Cobertura das estatísticas</strong><p>Estatísticas calculadas com as atuações disponíveis em {{ partidas_com_atuacoes }} das {{ total_finalizadas }} partidas encerradas cadastradas para o clube. Os números podem estar incompletos.</p><p>Esta lista reúne jogadores que atuaram pelo clube na temporada e pode incluir atletas que já foram transferidos.</p></aside>
+<p class="club-table-hint">Deslize a tabela para consultar todos os indicadores.</p>
     <div class="table-scroll" role="region" aria-label="Tabela de dados" tabindex="0">
 <table>
         <thead>
@@ -143,9 +71,5 @@
     </table>
 </div>
 
-    <p>
-        <a href="{% url 'futebol:classificacao' %}">
-            Voltar para classificação
-        </a>
-    </p>
+</section><p class="club-footnote">A classificação e os dados de partidas são atualizados por processos separados. <a href="{% url 'core:sobre' %}">Saiba mais sobre os dados →</a></p><a class="club-back" href="{% url 'futebol:classificacao' %}">← Voltar para classificação</a></div>
 {% endblock %}
