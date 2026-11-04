@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="backend/core/static/core/img/logo.png" alt="Football Data Hub" width="180">
+  <img src="Football Data Hub Logo Fundo.png" alt="Football Data Hub" width="180">
 
 # Football Data Hub
 
