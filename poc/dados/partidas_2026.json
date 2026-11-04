@@ -1326,6 +1326,40 @@
         }
     },
     {
+        "id": 1269958296,
+        "round": "Regular Season - 21",
+        "date": "2026-11-14T23:30:00.000Z",
+        "country": {
+            "code": "BR",
+            "name": "Brazil",
+            "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
+        },
+        "state": {
+            "clock": null,
+            "score": {
+                "current": null,
+                "penalties": null
+            },
+            "description": "Not started"
+        },
+        "awayTeam": {
+            "id": 113967,
+            "logo": "https://highlightly.net/soccer/images/teams/113967.png",
+            "name": "Vasco DA Gama"
+        },
+        "homeTeam": {
+            "id": 113116,
+            "logo": "https://highlightly.net/soccer/images/teams/113116.png",
+            "name": "Chapecoense"
+        },
+        "league": {
+            "id": 61205,
+            "logo": "https://highlightly.net/soccer/images/leagues/61205.png",
+            "name": "Serie A",
+            "season": 2026
+        }
+    },
+    {
         "id": 1270079989,
         "round": "Regular Season - 35",
         "date": "2026-11-14T21:30:00.000Z",
@@ -1607,12 +1641,12 @@
             "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
         },
         "state": {
-            "clock": null,
+            "clock": 90,
             "score": {
-                "current": null,
+                "current": "1 - 0",
                 "penalties": null
             },
-            "description": "Not started"
+            "description": "Finished"
         },
         "awayTeam": {
             "id": 125881,
@@ -1641,12 +1675,12 @@
             "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
         },
         "state": {
-            "clock": null,
+            "clock": 90,
             "score": {
-                "current": null,
+                "current": "1 - 2",
                 "penalties": null
             },
-            "description": "Not started"
+            "description": "Finished"
         },
         "awayTeam": {
             "id": 6679432,
@@ -6111,40 +6145,6 @@
             "id": 102053,
             "logo": "https://highlightly.net/soccer/images/teams/102053.png",
             "name": "Internacional"
-        },
-        "league": {
-            "id": 61205,
-            "logo": "https://highlightly.net/soccer/images/leagues/61205.png",
-            "name": "Serie A",
-            "season": 2026
-        }
-    },
-    {
-        "id": 1269958296,
-        "round": "Regular Season - 21",
-        "date": "2026-07-29T20:00:00.000Z",
-        "country": {
-            "code": "BR",
-            "name": "Brazil",
-            "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
-        },
-        "state": {
-            "clock": null,
-            "score": {
-                "current": null,
-                "penalties": null
-            },
-            "description": "Postponed"
-        },
-        "awayTeam": {
-            "id": 113967,
-            "logo": "https://highlightly.net/soccer/images/teams/113967.png",
-            "name": "Vasco DA Gama"
-        },
-        "homeTeam": {
-            "id": 113116,
-            "logo": "https://highlightly.net/soccer/images/teams/113116.png",
-            "name": "Chapecoense"
         },
         "league": {
             "id": 61205,
