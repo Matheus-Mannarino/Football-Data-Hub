@@ -2,7 +2,7 @@
     {
         "id": 1270108923,
         "round": "Regular Season - 38",
-        "date": "2026-12-02T21:00:00.000Z",
+        "date": "2026-12-03T00:30:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -36,7 +36,7 @@
     {
         "id": 1270108072,
         "round": "Regular Season - 38",
-        "date": "2026-12-02T21:00:00.000Z",
+        "date": "2026-12-03T00:30:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -70,7 +70,7 @@
     {
         "id": 1270107221,
         "round": "Regular Season - 38",
-        "date": "2026-12-02T21:00:00.000Z",
+        "date": "2026-12-03T00:30:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -104,7 +104,7 @@
     {
         "id": 1270106370,
         "round": "Regular Season - 38",
-        "date": "2026-12-02T21:00:00.000Z",
+        "date": "2026-12-03T00:30:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -138,7 +138,7 @@
     {
         "id": 1270105519,
         "round": "Regular Season - 38",
-        "date": "2026-12-02T21:00:00.000Z",
+        "date": "2026-12-03T00:30:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -172,7 +172,7 @@
     {
         "id": 1270104668,
         "round": "Regular Season - 38",
-        "date": "2026-12-02T21:00:00.000Z",
+        "date": "2026-12-03T00:30:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -206,7 +206,7 @@
     {
         "id": 1270103817,
         "round": "Regular Season - 38",
-        "date": "2026-12-02T21:00:00.000Z",
+        "date": "2026-12-03T00:30:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -240,7 +240,7 @@
     {
         "id": 1270102966,
         "round": "Regular Season - 38",
-        "date": "2026-12-02T21:00:00.000Z",
+        "date": "2026-12-03T00:30:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -274,7 +274,7 @@
     {
         "id": 1270102115,
         "round": "Regular Season - 38",
-        "date": "2026-12-02T21:00:00.000Z",
+        "date": "2026-12-03T00:30:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -308,7 +308,7 @@
     {
         "id": 1270101264,
         "round": "Regular Season - 38",
-        "date": "2026-12-02T21:00:00.000Z",
+        "date": "2026-12-03T00:30:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -340,9 +340,9 @@
         }
     },
     {
-        "id": 1270100413,
+        "id": 1270092754,
         "round": "Regular Season - 37",
-        "date": "2026-11-29T21:00:00.000Z",
+        "date": "2026-11-29T22:30:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -357,48 +357,14 @@
             "description": "Not started"
         },
         "awayTeam": {
-            "id": 109712,
-            "logo": "https://highlightly.net/soccer/images/teams/109712.png",
-            "name": "Santos"
+            "id": 113967,
+            "logo": "https://highlightly.net/soccer/images/teams/113967.png",
+            "name": "Vasco DA Gama"
         },
         "homeTeam": {
-            "id": 116520,
-            "logo": "https://highlightly.net/soccer/images/teams/116520.png",
-            "name": "Vitoria"
-        },
-        "league": {
-            "id": 61205,
-            "logo": "https://highlightly.net/soccer/images/leagues/61205.png",
-            "name": "Serie A",
-            "season": 2026
-        }
-    },
-    {
-        "id": 1270099562,
-        "round": "Regular Season - 37",
-        "date": "2026-11-29T21:00:00.000Z",
-        "country": {
-            "code": "BR",
-            "name": "Brazil",
-            "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
-        },
-        "state": {
-            "clock": null,
-            "score": {
-                "current": null,
-                "penalties": null
-            },
-            "description": "Not started"
-        },
-        "awayTeam": {
-            "id": 1020282,
-            "logo": "https://highlightly.net/soccer/images/teams/1020282.png",
-            "name": "Remo"
-        },
-        "homeTeam": {
-            "id": 108010,
-            "logo": "https://highlightly.net/soccer/images/teams/108010.png",
-            "name": "São Paulo FC"
+            "id": 904546,
+            "logo": "https://highlightly.net/soccer/images/teams/904546.png",
+            "name": "Atletico-MG"
         },
         "league": {
             "id": 61205,
@@ -410,7 +376,7 @@
     {
         "id": 1270098711,
         "round": "Regular Season - 37",
-        "date": "2026-11-29T21:00:00.000Z",
+        "date": "2026-11-29T21:30:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -444,7 +410,7 @@
     {
         "id": 1270097860,
         "round": "Regular Season - 37",
-        "date": "2026-11-29T21:00:00.000Z",
+        "date": "2026-11-29T21:30:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -476,77 +442,9 @@
         }
     },
     {
-        "id": 1270097009,
-        "round": "Regular Season - 37",
-        "date": "2026-11-29T21:00:00.000Z",
-        "country": {
-            "code": "BR",
-            "name": "Brazil",
-            "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
-        },
-        "state": {
-            "clock": null,
-            "score": {
-                "current": null,
-                "penalties": null
-            },
-            "description": "Not started"
-        },
-        "awayTeam": {
-            "id": 115669,
-            "logo": "https://highlightly.net/soccer/images/teams/115669.png",
-            "name": "Cruzeiro"
-        },
-        "homeTeam": {
-            "id": 106308,
-            "logo": "https://highlightly.net/soccer/images/teams/106308.png",
-            "name": "Fluminense"
-        },
-        "league": {
-            "id": 61205,
-            "logo": "https://highlightly.net/soccer/images/leagues/61205.png",
-            "name": "Serie A",
-            "season": 2026
-        }
-    },
-    {
-        "id": 1270096158,
-        "round": "Regular Season - 37",
-        "date": "2026-11-29T21:00:00.000Z",
-        "country": {
-            "code": "BR",
-            "name": "Brazil",
-            "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
-        },
-        "state": {
-            "clock": null,
-            "score": {
-                "current": null,
-                "penalties": null
-            },
-            "description": "Not started"
-        },
-        "awayTeam": {
-            "id": 108861,
-            "logo": "https://highlightly.net/soccer/images/teams/108861.png",
-            "name": "Flamengo"
-        },
-        "homeTeam": {
-            "id": 125881,
-            "logo": "https://highlightly.net/soccer/images/teams/125881.png",
-            "name": "Coritiba"
-        },
-        "league": {
-            "id": 61205,
-            "logo": "https://highlightly.net/soccer/images/leagues/61205.png",
-            "name": "Serie A",
-            "season": 2026
-        }
-    },
-    {
         "id": 1270095307,
         "round": "Regular Season - 37",
-        "date": "2026-11-29T21:00:00.000Z",
+        "date": "2026-11-29T21:30:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -578,9 +476,9 @@
         }
     },
     {
-        "id": 1270094456,
+        "id": 1270100413,
         "round": "Regular Season - 37",
-        "date": "2026-11-29T21:00:00.000Z",
+        "date": "2026-11-29T19:00:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -595,14 +493,48 @@
             "description": "Not started"
         },
         "awayTeam": {
-            "id": 103755,
-            "logo": "https://highlightly.net/soccer/images/teams/103755.png",
-            "name": "Palmeiras"
+            "id": 109712,
+            "logo": "https://highlightly.net/soccer/images/teams/109712.png",
+            "name": "Santos"
         },
         "homeTeam": {
-            "id": 113116,
-            "logo": "https://highlightly.net/soccer/images/teams/113116.png",
-            "name": "Chapecoense"
+            "id": 116520,
+            "logo": "https://highlightly.net/soccer/images/teams/116520.png",
+            "name": "Vitoria"
+        },
+        "league": {
+            "id": 61205,
+            "logo": "https://highlightly.net/soccer/images/leagues/61205.png",
+            "name": "Serie A",
+            "season": 2026
+        }
+    },
+    {
+        "id": 1270096158,
+        "round": "Regular Season - 37",
+        "date": "2026-11-29T19:00:00.000Z",
+        "country": {
+            "code": "BR",
+            "name": "Brazil",
+            "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
+        },
+        "state": {
+            "clock": null,
+            "score": {
+                "current": null,
+                "penalties": null
+            },
+            "description": "Not started"
+        },
+        "awayTeam": {
+            "id": 108861,
+            "logo": "https://highlightly.net/soccer/images/teams/108861.png",
+            "name": "Flamengo"
+        },
+        "homeTeam": {
+            "id": 125881,
+            "logo": "https://highlightly.net/soccer/images/teams/125881.png",
+            "name": "Coritiba"
         },
         "league": {
             "id": 61205,
@@ -614,7 +546,7 @@
     {
         "id": 1270093605,
         "round": "Regular Season - 37",
-        "date": "2026-11-29T21:00:00.000Z",
+        "date": "2026-11-29T00:00:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -646,9 +578,9 @@
         }
     },
     {
-        "id": 1270092754,
+        "id": 1270097009,
         "round": "Regular Season - 37",
-        "date": "2026-11-29T21:00:00.000Z",
+        "date": "2026-11-27T23:00:00.000Z",
         "country": {
             "code": "BR",
             "name": "Brazil",
@@ -663,14 +595,48 @@
             "description": "Not started"
         },
         "awayTeam": {
-            "id": 113967,
-            "logo": "https://highlightly.net/soccer/images/teams/113967.png",
-            "name": "Vasco DA Gama"
+            "id": 115669,
+            "logo": "https://highlightly.net/soccer/images/teams/115669.png",
+            "name": "Cruzeiro"
         },
         "homeTeam": {
-            "id": 904546,
-            "logo": "https://highlightly.net/soccer/images/teams/904546.png",
-            "name": "Atletico-MG"
+            "id": 106308,
+            "logo": "https://highlightly.net/soccer/images/teams/106308.png",
+            "name": "Fluminense"
+        },
+        "league": {
+            "id": 61205,
+            "logo": "https://highlightly.net/soccer/images/leagues/61205.png",
+            "name": "Serie A",
+            "season": 2026
+        }
+    },
+    {
+        "id": 1270099562,
+        "round": "Regular Season - 37",
+        "date": "2026-11-26T23:00:00.000Z",
+        "country": {
+            "code": "BR",
+            "name": "Brazil",
+            "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
+        },
+        "state": {
+            "clock": null,
+            "score": {
+                "current": null,
+                "penalties": null
+            },
+            "description": "Not started"
+        },
+        "awayTeam": {
+            "id": 1020282,
+            "logo": "https://highlightly.net/soccer/images/teams/1020282.png",
+            "name": "Remo"
+        },
+        "homeTeam": {
+            "id": 108010,
+            "logo": "https://highlightly.net/soccer/images/teams/108010.png",
+            "name": "São Paulo FC"
         },
         "league": {
             "id": 61205,
@@ -705,6 +671,40 @@
             "id": 904546,
             "logo": "https://highlightly.net/soccer/images/teams/904546.png",
             "name": "Atletico-MG"
+        },
+        "league": {
+            "id": 61205,
+            "logo": "https://highlightly.net/soccer/images/leagues/61205.png",
+            "name": "Serie A",
+            "season": 2026
+        }
+    },
+    {
+        "id": 1270094456,
+        "round": "Regular Season - 37",
+        "date": "2026-11-24T21:00:00.000Z",
+        "country": {
+            "code": "BR",
+            "name": "Brazil",
+            "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
+        },
+        "state": {
+            "clock": null,
+            "score": {
+                "current": null,
+                "penalties": null
+            },
+            "description": "Not started"
+        },
+        "awayTeam": {
+            "id": 103755,
+            "logo": "https://highlightly.net/soccer/images/teams/103755.png",
+            "name": "Palmeiras"
+        },
+        "homeTeam": {
+            "id": 113116,
+            "logo": "https://highlightly.net/soccer/images/teams/113116.png",
+            "name": "Chapecoense"
         },
         "league": {
             "id": 61205,
@@ -1403,12 +1403,12 @@
             "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
         },
         "state": {
-            "clock": null,
+            "clock": 90,
             "score": {
-                "current": null,
+                "current": "0 - 3",
                 "penalties": null
             },
-            "description": "Not started"
+            "description": "Finished"
         },
         "awayTeam": {
             "id": 106308,
@@ -1437,12 +1437,12 @@
             "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
         },
         "state": {
-            "clock": null,
+            "clock": 90,
             "score": {
-                "current": null,
+                "current": "3 - 2",
                 "penalties": null
             },
-            "description": "Not started"
+            "description": "Finished"
         },
         "awayTeam": {
             "id": 101202,
@@ -1471,12 +1471,12 @@
             "logo": "https://highlightly.net/soccer/images/countries/BR.svg"
         },
         "state": {
-            "clock": null,
+            "clock": 90,
             "score": {
-                "current": null,
+                "current": "6 - 1",
                 "penalties": null
             },
-            "description": "Not started"
+            "description": "Finished"
         },
         "awayTeam": {
             "id": 1020282,
